@@ -13,16 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Wipi {
 
-		public function init() {
-			register_activation_hook( __FILE__, array( $this, 'activate' ) );
-			register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+	public function init() {
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-			add_action( 'init', array( $this, 'setup' ) );
-		}
+		add_action( 'init', array( $this, 'setup' ) );
+	}
 
-		public function activate() {}
+	public function activate() {}
 
-		public function deactivate() {}
+	public function deactivate() {}
 
-		public function setup() {}
+	public function setup() {
+		// enqueue admin scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+	}
+
+	public function admin_scripts() {
+		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/assets/dist/wipi.js' );
+	}
 }
