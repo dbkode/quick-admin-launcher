@@ -1,0 +1,3 @@
+<div id="wipi-modal" x-data="wipi()" x-init="init($nextTick)" x-show="modal" style="display: none;">
+	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange">
+</div>

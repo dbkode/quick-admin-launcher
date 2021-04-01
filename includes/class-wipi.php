@@ -33,13 +33,10 @@ class Wipi {
 	}
 
 	public function admin_scripts() {
-		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/assets/dist/wipi.js' );
+		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/dist/wipi.js' );
 	}
 
 	public function modal_html() {
-		?>
-		<div id="wipi-modal" x-data="wipi()" x-init="init" x-show="modal" style="position: fixed; top: 50%; left: 50%; width: 300px; height: 100px; background-color: yellow; display: none;">
-		</div>
-		<?php
+		include WIPI_PLUGIN_DIR . 'templates/wipi-modal.php';
 	}
 }
