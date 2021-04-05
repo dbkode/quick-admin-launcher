@@ -2,7 +2,21 @@
 	position: fixed;
 	top: 50%; 
 	left: 50%; 
-	width: 300px; 
-	height: 100px; 
-	background-color: pink;
+	padding: 10px;
+	background-color: #fefefe;
+	border: 1px solid darkgray;
+	box-shadow: 0px 0px 10px 0px;
+	border-radius: 5px;
+}
+
+#wipi-modal-input {
+	width: 300px;
+	border: none;
+	background-color: #fefefe;
+	font-size: 20px;
+
+	&:focus {
+		border: none;
+		box-shadow: none;
+	}
 }
