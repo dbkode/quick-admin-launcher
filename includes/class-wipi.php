@@ -33,6 +33,11 @@ class Wipi {
 	}
 
 	public function admin_scripts() {
+		global $submenu, $menu;
+		error_log('=== MENU ===');
+		error_log( print_r( $menu, true ) );
+		error_log('=== SUBMENU ===');
+		error_log( print_r( $submenu, true ) );
 		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/dist/wipi.js' );
 	}
 
