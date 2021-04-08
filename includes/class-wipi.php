@@ -33,15 +33,38 @@ class Wipi {
 	}
 
 	public function admin_scripts() {
-		global $submenu, $menu;
-		error_log('=== MENU ===');
-		error_log( print_r( $menu, true ) );
-		error_log('=== SUBMENU ===');
-		error_log( print_r( $submenu, true ) );
+		//$admin_menu = $this->get_admin_menu();
 		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/dist/wipi.js' );
 	}
 
 	public function modal_html() {
 		include WIPI_PLUGIN_DIR . 'templates/wipi-modal.php';
+	}
+
+	private function get_admin_menu() {
+		global $submenu, $menu;
+
+		$admin_menu = array();
+		foreach ( $menu as $key => $item ) {
+			// check if separator.
+			if ( ! empty( $item[4] ) && false !== strpos( $item[4], 'wp-menu-separator' ) ) {
+				continue;
+			}
+
+			$admin_menu[] = array(
+				'label' => $item[0],
+				'link'  => '',
+				'icon'  => '',
+			);
+
+			if ( ! empty( $submenu[ $item[2] ] ) ) {
+				$submenu_items = $submenu[ $item[2] ];
+
+				foreach ( $submenu_items as $submenu_item ) {
+					error_log('--- SUBITEM');
+					error_log( print_r( $submenu_item, true ) );
+				}
+			}
+		}
 	}
 }

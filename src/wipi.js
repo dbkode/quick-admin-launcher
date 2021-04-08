@@ -36,6 +36,20 @@ function wipi() {
 			}, false);
 		},
 
+		getAdminMenu() {
+			var adminMenu = document.querySelectorAll('#adminmenu a');
+
+			console.log(adminMenu);
+
+			for(var i = 0; i < adminMenu.length; i += 1) {
+				var href = adminMenu[i].href;
+				var label = adminMenu[i].innerText.replace(/\n|\r/g, "").trim();
+				var classes = adminMenu[i].className;
+				console.log(label);
+				
+			}
+		},
+
 		searchChange() {
 			console.log('Term: ', this.term);
 		}
