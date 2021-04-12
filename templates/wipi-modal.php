@@ -1,8 +1,8 @@
 <div id="wipi-modal" x-data="wipi()" x-init="init($nextTick)" x-show="modal" style="display: none;">
-	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange">
+	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off">
 	<div class="wipi-modal-dropdown">
-		<div class="wipi-modal-dropdown-item">Posts</div>
-		<div class="wipi-modal-dropdown-item">Pages</div>
-		<div class="wipi-modal-dropdown-item">Settings</div>
+		<template x-for="(item, index) in results" :key="index">
+			<div class="wipi-modal-dropdown-item" x-text="item.label"></div>
+		</template>
 	</div>
 </div>

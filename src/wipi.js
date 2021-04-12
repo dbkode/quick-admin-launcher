@@ -5,9 +5,13 @@ function wipi() {
 	return {
 		modal: false,
 		term: '',
+		adminMenu: [],
+		results: [],
 
 		init(nextTick) {
 			const self = this;
+
+			this.adminMenu = this.getAdminMenu();
 
 			// Hotkeys.
 			document.addEventListener('keyup', function(e) {
@@ -37,21 +41,40 @@ function wipi() {
 		},
 
 		getAdminMenu() {
-			var adminMenu = document.querySelectorAll('#adminmenu a');
+			const adminMenuDOM = document.querySelectorAll('#adminmenu a');
 
-			console.log(adminMenu);
-
-			for(var i = 0; i < adminMenu.length; i += 1) {
-				var href = adminMenu[i].href;
-				var label = adminMenu[i].innerText.replace(/\n|\r/g, "").trim();
-				var classes = adminMenu[i].className;
-				console.log(label);
+			let adminMenu = [];
+			let parentLabel = '';
+			let isParent = false;
+			for(let i = 0; i < adminMenuDOM.length; i += 1) {
+				var href = adminMenuDOM[i].href;
+				var label = adminMenuDOM[i].innerText.replace(/\n|\r/g, "").trim();
+				var classes = adminMenuDOM[i].className;
 				
+				isParent = classes.includes('wp-has-submenu');
+				if ( isParent ) {
+					parentLabel = label;
+				} else {
+					label = `${parentLabel} - ${label}`;
+				}
+
+				const item = {
+					label,
+					labelLC: label.toLowerCase(),
+					href
+				}
+				adminMenu.push(item);
 			}
+
+			return adminMenu;
 		},
 
 		searchChange() {
-			console.log('Term: ', this.term);
+			const term = this.term.toLowerCase();
+
+			this.results = this.adminMenu.filter(item => {
+				return item.labelLC.includes(term);
+			});
 		}
 	}
 }
