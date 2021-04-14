@@ -49,6 +49,11 @@ function wipi() {
 						self.selection = self.results.length - 1;
 					}
 				}
+
+				// Enter key.
+				if ( self.modal && 'Enter' === e.key && self.results[self.selection] ) {
+					window.location = self.results[self.selection].href;
+				}
 			}, false);
 
 			// Mouse click outside Wipi to close it.
