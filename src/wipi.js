@@ -7,6 +7,7 @@ function wipi() {
 		term: '',
 		adminMenu: [],
 		results: [],
+		selection: 0,
 
 		init(nextTick) {
 			const self = this;
@@ -27,8 +28,26 @@ function wipi() {
 				}
 
 				// Esc - close modal.
-				if ( 'Escape' === e.key ) {
+				if ( self.modal && 'Escape' === e.key ) {
 					self.modal = false;
+				}
+
+				// Down key.
+				if ( self.modal && 'ArrowDown' === e.key ) {
+					if ( self.selection + 1 < self.results.length ) {
+						self.selection += 1;
+					} else {
+						self.selection = 0;
+					}
+				}
+
+				// Up key.
+				if ( self.modal && 'ArrowUp' === e.key ) {
+					if ( self.selection - 1 >= 0 ) {
+						self.selection -= 1;
+					} else {
+						self.selection = self.results.length - 1;
+					}
 				}
 			}, false);
 
@@ -75,6 +94,7 @@ function wipi() {
 			this.results = this.adminMenu.filter(item => {
 				return item.labelLC.includes(term);
 			});
+			this.selection = 0;
 		}
 	}
 }

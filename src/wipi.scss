@@ -21,3 +21,9 @@
 		box-shadow: none;
 	}
 }
+
+.wipi-modal-dropdown-item {
+	&.wipi-selected {
+		background-color: gray;
+	}
+}
