@@ -8,6 +8,7 @@ function wipi() {
 		adminMenu: [],
 		results: [],
 		selection: 0,
+		serverSearchTimeout: 0,
 
 		init(nextTick) {
 			const self = this;
@@ -85,7 +86,7 @@ function wipi() {
 				const item = {
 					label,
 					labelLC: label.toLowerCase(),
-					href
+					href,
 				}
 				adminMenu.push(item);
 			}
@@ -94,12 +95,30 @@ function wipi() {
 		},
 
 		searchChange() {
+			const self = this;
+
 			const term = this.term.toLowerCase();
 
 			this.results = this.adminMenu.filter(item => {
 				return item.labelLC.includes(term);
 			});
 			this.selection = 0;
+
+			// search posts.
+			clearTimeout(this.serverSearchTimeout);
+			this.serverSearchTimeout = setTimeout(async () => {
+				const response = await fetch(`${wipiData.rest}/search/${term}`, {
+					headers: { 
+						"X-WP-Nonce": wipiData.nonce,
+						"Content-Type": "application/json;charset=utf-8"
+					}
+				});
+				const responseJson = await response.json();
+				for(let i = 0; i < responseJson.length; i += 1) {
+					self.results.push(responseJson[i]);
+					console.log(responseJson[i]);
+				}
+			}, 300);
 		}
 	}
 }
