@@ -97,27 +97,35 @@ function wipi() {
 		searchChange() {
 			const self = this;
 
-			const term = this.term.toLowerCase();
+			const term = this.term.toLowerCase().trim();
+
+			if ( term.length === 0 ) {
+				this.results = [];
+				return;
+			}
+
+			const termParts = term.split(' ');
 
 			this.results = this.adminMenu.filter(item => {
-				return item.labelLC.includes(term);
+				const allExist = termParts.every(termPart => item.labelLC.includes(termPart));
+				return allExist;
 			});
 			this.selection = 0;
 
 			// search posts.
+			const termServer = term.replace(' ', '+');
 			clearTimeout(this.serverSearchTimeout);
 			this.serverSearchTimeout = setTimeout(async () => {
-				const response = await fetch(`${wipiData.rest}/search/${term}`, {
+				const response = await fetch(`${wipiData.rest}/search/${termServer}`, {
 					headers: { 
 						"X-WP-Nonce": wipiData.nonce,
 						"Content-Type": "application/json;charset=utf-8"
 					}
 				});
 				const responseJson = await response.json();
-				for(let i = 0; i < responseJson.length; i += 1) {
-					self.results.push(responseJson[i]);
-					console.log(responseJson[i]);
-				}
+				responseJson.forEach(item => {
+					self.results.push(item);
+				});
 			}, 300);
 		}
 	}
