@@ -80,7 +80,8 @@ class Wipi {
 		$results = array();
 		foreach ( $posts as $post ) {
 			$results[] = array(
-				'label'   => "[$post->post_type] {$post->post_title}",
+				'prefix'  => $post->post_type,
+				'label'   => $post->post_title,
 				'labelLC' => strtolower( $post->post_title ),
 				'href'    => get_edit_post_link( $post->ID, '' ),
 			);

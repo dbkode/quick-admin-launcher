@@ -3,7 +3,12 @@
 	<div class="wipi-modal-dropdown">
 		<template x-for="(item, index) in results" :key="index">
 			<div class="wipi-modal-dropdown-item" :class="{'wipi-selected': index === selection}" @mouseover="resultsMouseOver(index)">
-				<a :href="item.href" x-text="item.label"></a>
+				<a :href="item.href">
+					<template x-if="item.prefix">
+						[<span x-text="item.prefix"></span>] 
+					</template>
+					<span x-text="item.label"></span>
+				</a>
 			</div>
 		</template>
 	</div>
