@@ -77,6 +77,12 @@ class Wipi {
 			)
 		);
 
+		$users = get_users(
+			array(
+				'search' => $term,
+			),
+		);
+
 		$results = array();
 		foreach ( $posts as $post ) {
 			$results[] = array(
@@ -84,6 +90,14 @@ class Wipi {
 				'label'   => $post->post_title,
 				'labelLC' => strtolower( $post->post_title ),
 				'href'    => get_edit_post_link( $post->ID, '' ),
+			);
+		}
+		foreach ( $users as $user ) {
+			$results[] = array(
+				'prefix'  => 'user',
+				'label'   => $user->display_name,
+				'labelLC' => strtolower( $user->display_name ),
+				'href'    => get_edit_user_link( $user->ID ),
 			);
 		}
 
