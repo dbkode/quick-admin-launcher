@@ -127,6 +127,10 @@ function wipi() {
 					self.results.push(item);
 				});
 			}, 300);
+		},
+
+		resultsMouseOver(index) {
+			this.selection = index;
 		}
 	}
 }

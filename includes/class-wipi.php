@@ -86,8 +86,6 @@ class Wipi {
 			);
 		}
 
-		error_log( print_r( $results, true ) );
-
 		return $results;
 	}
 
