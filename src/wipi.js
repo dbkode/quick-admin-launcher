@@ -131,6 +131,12 @@ function wipi() {
 
 		resultsMouseOver(index) {
 			this.selection = index;
+		},
+
+		fixInputCursor(e) {
+			if ( 'ArrowUp' === e.key || 'ArrowDown' === e.key ) {
+				return false;
+			}
 		}
 	}
 }
