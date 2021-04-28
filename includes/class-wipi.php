@@ -36,15 +36,16 @@ class Wipi {
 	}
 
 	public function admin_scripts() {
-		//$admin_menu = $this->get_admin_menu();
+		$admin_menu = $this->get_admin_menu();
 		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/dist/wipi.js' );
 
 		wp_localize_script(
 			'wipi-js',
 			'wipiData',
 			array(
-				'rest'  => esc_url_raw( rest_url( 'wipi/v1' ) ),
-				'nonce' => wp_create_nonce( 'wp_rest' ),
+				'rest'       => esc_url_raw( rest_url( 'wipi/v1' ) ),
+				'nonce'      => wp_create_nonce( 'wp_rest' ),
+				'admin_menu' => $admin_menu,
 			)
 		);
 	}
@@ -108,26 +109,41 @@ class Wipi {
 		global $submenu, $menu;
 
 		$admin_menu = array();
+		$remove_tags_regex = '/<[^>]*>[^<]*<[^>]*>/';
 		foreach ( $menu as $key => $item ) {
 			// check if separator.
 			if ( ! empty( $item[4] ) && false !== strpos( $item[4], 'wp-menu-separator' ) ) {
 				continue;
 			}
 
+			$label = preg_replace( $remove_tags_regex, '', $item[0] );
+			$icon  = isset( $item[6] ) ? $item[6] : '';
+			$link  = "/wp-admin/{$item[2]}";
+
 			$admin_menu[] = array(
-				'label' => $item[0],
-				'link'  => '',
-				'icon'  => '',
+				'label'   => $label,
+				'labelLC' => strtolower( $label ),
+				'href'    => $link,
+				'icon'    => $icon,
 			);
 
 			if ( ! empty( $submenu[ $item[2] ] ) ) {
 				$submenu_items = $submenu[ $item[2] ];
 
 				foreach ( $submenu_items as $submenu_item ) {
-					error_log('--- SUBITEM');
-					error_log( print_r( $submenu_item, true ) );
+					$sub_label = preg_replace( $remove_tags_regex, '', $submenu_item[0] );
+					$sub_link = "/wp-admin/{$submenu_item[2]}";
+					$sub_label_final = "{$label} - {$sub_label}";
+					$admin_menu[] = array(
+						'label'   => $sub_label_final,
+						'labelLC' => strtolower( $sub_label_final ),
+						'href'    => $sub_link,
+						'icon'    => $icon,
+					);
 				}
 			}
 		}
+
+		return $admin_menu;
 	}
 }

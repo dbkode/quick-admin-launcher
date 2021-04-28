@@ -13,7 +13,7 @@ function wipi() {
 		init(nextTick) {
 			const self = this;
 
-			this.adminMenu = this.getAdminMenu();
+			this.adminMenu = wipiData.admin_menu;
 
 			// Hotkeys.
 			document.addEventListener('keyup', function(e) {
