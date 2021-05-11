@@ -33,6 +33,14 @@ class Wipi {
 
 		// add wipi modal to admin.
 		add_action( 'admin_footer', array( $this, 'modal_html' ) );
+
+		add_action( 'admin_menu', array( $this, 'test_menu' ) );
+	}
+
+	public function test_menu() {
+		add_menu_page( 'TEST', 'TEST', 'manage_options', 'test-menu', function() {
+			esc_html_e( 'HELLO!!!!', 'wipi' );
+		}, 'dashicons-visibility');
 	}
 
 	public function admin_scripts() {
@@ -118,7 +126,24 @@ class Wipi {
 
 			$label = preg_replace( $remove_tags_regex, '', $item[0] );
 			$icon  = isset( $item[6] ) ? $item[6] : '';
-			$link  = "/wp-admin/{$item[2]}";
+
+			// get link.
+			$menu_hook = get_plugin_page_hook( $item[2], 'admin.php' );
+			$menu_file = $item[2];
+			$pos       = strpos( $menu_file, '?' );
+
+			if ( false !== $pos ) {
+				$menu_file = substr( $menu_file, 0, $pos );
+			}
+
+			$link = "{$item[2]}";
+			if ( ! empty( $menu_hook )
+				|| ( ( 'index.php' !== $item[2] )
+					&& file_exists( WP_PLUGIN_DIR . "/$menu_file" )
+					&& ! file_exists( ABSPATH . "/wp-admin/$menu_file" ) )
+			) {
+				$link = "admin.php?page={$item[2]}";
+			}
 
 			$admin_menu[] = array(
 				'label'   => $label,
