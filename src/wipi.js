@@ -13,7 +13,8 @@ function wipi() {
 		init(nextTick) {
 			const self = this;
 
-			this.adminMenu = wipiData.admin_menu;
+			//this.adminMenu = wipiData.admin_menu;
+			this.adminMenu = this.getAdminMenu();
 
 			// Hotkeys.
 			document.addEventListener('keyup', function(e) {
@@ -71,14 +72,28 @@ function wipi() {
 			let adminMenu = [];
 			let parentLabel = '';
 			let isParent = false;
+			var icon = '';
 			for(let i = 0; i < adminMenuDOM.length; i += 1) {
 				var href = adminMenuDOM[i].href;
 				var label = adminMenuDOM[i].innerText.replace(/\n|\r/g, "").trim();
-				var classes = adminMenuDOM[i].className;
+				var classes = adminMenuDOM[i].className;				
 				
-				isParent = classes.includes('wp-has-submenu');
+				isParent = classes.includes('menu-top');
 				if ( isParent ) {
 					parentLabel = label;
+					var iconDOM = adminMenuDOM[i].querySelector('.wp-menu-image');
+					if(iconDOM) {
+						var iconClasses = iconDOM.className.replace('dashicons-before', '');
+						var dashicon = iconClasses.match(/(dashicons-[a-z0-9-]*)/g);
+						if(dashicon) {
+							icon = dashicon[0];
+						} else {
+							var iconImg = iconDOM.querySelector('img');
+							if(iconImg) {
+								icon = iconImg.src;
+							}
+						}	
+					}
 				} else {
 					label = `${parentLabel} - ${label}`;
 				}
@@ -87,6 +102,7 @@ function wipi() {
 					label,
 					labelLC: label.toLowerCase(),
 					href,
+					icon
 				}
 				adminMenu.push(item);
 			}
