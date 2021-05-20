@@ -9,6 +9,7 @@ function wipi() {
 		results: [],
 		selection: 0,
 		serverSearchTimeout: 0,
+		showQuickAccess: false,
 
 		init(nextTick) {
 			const self = this;
@@ -31,16 +32,22 @@ function wipi() {
 
 				// Esc - close modal.
 				if ( self.modal && 'Escape' === e.key ) {
+					self.showQuickAccess = false;
 					self.modal = false;
 				}
 
 				// Down key.
 				if ( self.modal && 'ArrowDown' === e.key ) {
-					if ( self.selection + 1 < self.results.length ) {
+					let selectionMax = self.results.length;
+					if(!self.results.length) {
+						selectionMax = 0;
+						self.showQuickAccess = true;
+					}
+					if ( self.selection + 1 < selectionMax ) {
 						self.selection += 1;
 					} else {
 						self.selection = 0;
-					}
+					}	
 				}
 
 				// Up key.
