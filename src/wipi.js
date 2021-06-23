@@ -1,22 +1,99 @@
+/**
+ * Wipi modal handler.
+ *
+ * Modal js code to handle the different user interactions.
+ *
+ * @since 1.0.0
+ */
+
+/**
+ * Dependencies.
+ */
 import 'alpinejs'
 import './wipi.scss'
 
+ /**
+ * Wipi modal AlpineJS handler.
+ *
+ * JS code to handle AlpineJS interactions.
+ *
+ * @since 1.0.0
+ *
+ * @returns object The AlpineJS object.
+ */
 function wipi() {
 	return {
+
+		/**
+		 * Is modal visible.
+		 *
+		 * @since  1.0.0
+		 *
+		 * @type boolean
+		 */
 		modal: false,
+
+		/**
+		 * Input search term.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @type string
+		 */
 		term: '',
+
+		/**
+		 * Current WP admin menu.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @type array
+		 */
 		adminMenu: [],
+
+		/**
+		 * Search results.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @type array
+		 */
 		results: [],
+
+		/**
+		 * Current search result selection.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @type int
+		 */
 		selection: 0,
+
+		/**
+		 * Server search timeout timer ID.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @type int
+		 */
 		serverSearchTimeout: 0,
 
+		/**
+		 * Init.
+		 *
+		 * Initializes the AlpineJS instance.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return void
+		 */
 		init(nextTick) {
 			const self = this;
 
-			//this.adminMenu = wipiData.admin_menu;
+			// Get WP admin menu.
 			this.adminMenu = this.getAdminMenu();
 
-			// Hotkeys.
+			// Setup Hotkeys.
 			document.addEventListener('keyup', function(e) {
 				// Toggle modal.
 				if ( e.ctrlKey && ' ' === e.key ) {
@@ -66,6 +143,15 @@ function wipi() {
 			}, false);
 		},
 
+		/**
+		 * Get WP Admin Menu.
+		 *
+		 * Scrape WP admin menu items.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return array All WP admin menu items.
+		 */
 		getAdminMenu() {
 			const adminMenuDOM = document.querySelectorAll('#adminmenu a');
 
@@ -110,6 +196,15 @@ function wipi() {
 			return adminMenu;
 		},
 
+		/**
+		 * Search changed callback.
+		 *
+		 * Triggered when the search input changes.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return void
+		 */
 		searchChange() {
 			const self = this;
 

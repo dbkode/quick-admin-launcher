@@ -1,3 +1,4 @@
+/* Wipi Modal wrapper */
 #wipi-modal {
 	position: fixed;
 	top: 40%; 
@@ -10,6 +11,7 @@
 	border-radius: 5px;
 }
 
+/* Search input */
 #wipi-modal-input {
 	width: 400px;
 	border: none;
@@ -28,6 +30,7 @@
 	}
 }
 
+/* Search results icon when base64 */
 .wipi-icon-base64 {
 	display: inline-block;
 	width: 12px;
