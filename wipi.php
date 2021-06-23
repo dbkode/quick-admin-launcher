@@ -1,12 +1,13 @@
-<?php defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+<?php
+/**
+ * Plugin Name:  Wipi
+ * Plugin URI:   wipi.com
+ * Description:  WP launcher
+ * Version:      0.0.1
+ * Author:       dbeja
+ */
 
-/*
-Plugin Name:  Wipi
-Plugin URI:   wipi.com
-Description:  WP launcher
-Version:      0.0.1
-Author:       dbeja
-*/
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 define( 'WIPI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WIPI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
