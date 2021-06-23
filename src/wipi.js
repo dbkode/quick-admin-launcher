@@ -131,7 +131,7 @@ function wipi() {
 
 				// Enter key.
 				if ( self.modal && 'Enter' === e.key && self.results[self.selection] ) {
-					window.location = self.results[self.selection].href;
+					window.location = self.results[self.selection].link;
 				}
 			}, false);
 
@@ -160,7 +160,7 @@ function wipi() {
 			let isParent = false;
 			var icon = '';
 			for(let i = 0; i < adminMenuDOM.length; i += 1) {
-				var href = adminMenuDOM[i].href;
+				var link = adminMenuDOM[i].href;
 				var label = adminMenuDOM[i].innerText.replace(/\n|\r/g, "").trim();
 				var classes = adminMenuDOM[i].className;				
 				
@@ -186,8 +186,8 @@ function wipi() {
 
 				const item = {
 					label,
-					labelLC: label.toLowerCase(),
-					href,
+					term: label.toLowerCase(),
+					link,
 					icon
 				}
 				adminMenu.push(item);
@@ -218,7 +218,7 @@ function wipi() {
 			const termParts = term.split(' ');
 
 			this.results = this.adminMenu.filter(item => {
-				const allExist = termParts.every(termPart => item.labelLC.includes(termPart));
+				const allExist = termParts.every(termPart => item.term.includes(termPart));
 				return allExist;
 			});
 			this.selection = 0;

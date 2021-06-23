@@ -33,7 +33,7 @@
 				</template>
 
 				<!-- Result label -->
-				<a :href="item.href">
+				<a :href="item.link">
 					<template x-if="item.prefix">
 						[<span x-text="item.prefix"></span>] 
 					</template>

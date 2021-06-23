@@ -141,18 +141,18 @@ final class Wipi {
 		$results = array();
 		foreach ( $posts as $post ) {
 			$results[] = array(
-				'prefix'  => $post->post_type,
-				'label'   => $post->post_title,
-				'labelLC' => strtolower( $post->post_title ),
-				'href'    => get_edit_post_link( $post->ID, '' ),
+				'prefix' => $post->post_type,
+				'label'  => $post->post_title,
+				'term'   => strtolower( $post->post_title ),
+				'link'   => get_edit_post_link( $post->ID, '' ),
 			);
 		}
 		foreach ( $users as $user ) {
 			$results[] = array(
-				'prefix'  => 'user',
-				'label'   => $user->display_name,
-				'labelLC' => strtolower( $user->display_name ),
-				'href'    => get_edit_user_link( $user->ID ),
+				'prefix' => 'user',
+				'label'  => $user->display_name,
+				'term'   => strtolower( $user->display_name ),
+				'link'   => get_edit_user_link( $user->ID ),
 			);
 		}
 
