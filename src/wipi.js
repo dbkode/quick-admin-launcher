@@ -155,13 +155,14 @@ function wipi() {
 		getAdminMenu() {
 			const adminMenuDOM = document.querySelectorAll('#adminmenu a');
 
-			let adminMenu = [];
+			let adminMenu   = [];
 			let parentLabel = '';
-			let isParent = false;
-			var icon = '';
+			let isParent    = false;
+			var icon        = '';
+
 			for(let i = 0; i < adminMenuDOM.length; i += 1) {
-				var link = adminMenuDOM[i].href;
-				var label = adminMenuDOM[i].innerText.replace(/\n|\r/g, "").trim();
+				var link    = adminMenuDOM[i].href;
+				var label   = adminMenuDOM[i].innerText.replace(/\n|\r/g, "").trim();
 				var classes = adminMenuDOM[i].className;				
 				
 				isParent = classes.includes('menu-top');
@@ -170,7 +171,7 @@ function wipi() {
 					var iconDOM = adminMenuDOM[i].querySelector('.wp-menu-image');
 					if(iconDOM) {
 						var iconClasses = iconDOM.className.replace('dashicons-before', '');
-						var dashicon = iconClasses.match(/(dashicons-[a-z0-9-]*)/g);
+						var dashicon    = iconClasses.match(/(dashicons-[a-z0-9-]*)/g);
 						if(dashicon) {
 							icon = dashicon[0];
 						} else {
