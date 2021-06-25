@@ -93,6 +93,11 @@ function wipi() {
 			// Get WP admin menu.
 			this.adminMenu = this.getAdminMenu();
 
+			// Add any extra items added via filter.
+			if ( wipiData.extra_items.length > 0 ) {
+				Array.prototype.push.apply(this.adminMenu, wipiData.extra_items);
+			}
+
 			// Setup Hotkeys.
 			document.addEventListener('keyup', function(e) {
 				// Toggle modal.
