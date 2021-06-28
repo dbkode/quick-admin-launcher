@@ -60,19 +60,6 @@ final class Wipi {
 
 		// Add wipi modal to admin.
 		add_action( 'admin_footer', array( $this, 'modal_html' ) );
-
-		add_filter ('wipi_extra_items', array( $this, 'extra_items'));
-	}
-
-	public function extra_items($items) {
-		$items[] = array(
-			'prefix' => 'Extra',
-			'label' => 'Extra Item',
-			'term' => 'extra',
-			'link' => '/',
-		);
-
-		return $items;
 	}
 
 	/**
@@ -190,6 +177,27 @@ final class Wipi {
 				'link'   => get_edit_user_link( $user->ID ),
 			);
 		}
+
+		/**
+		 * Filters server search results.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $results {
+		 *   Array of results.
+		 *
+		 *     @type array $item {
+		 *       Searchable item.
+		 *
+		 *       @type string $prefix Search result type.
+		 *       @type string $label Search result label.
+		 *       @type string $term Searchable term for this result.
+		 *       @type string $link Search result link.
+		 *       @type string $icon Search result icon (dashicon class name, icon path or base64 icon).
+		 *     }
+		 * }
+		 */
+		$results = apply_filters( 'wipi_server_search_results', $results, $term );
 
 		return $results;
 	}
