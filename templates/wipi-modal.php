@@ -34,11 +34,15 @@
 
 				<!-- Result label -->
 				<a :href="item.link">
-					<template x-if="item.prefix">
-						[<span x-text="item.prefix"></span>] 
-					</template>
 					<span x-text="item.label"></span>
 				</a>
+
+				<!-- Result type -->
+				<template x-if="item.type">
+					<div class="wipi-result-type">
+						(<span x-text="item.type"></span>)
+					</div>
+				</template>
 			</div>
 		</template>
 

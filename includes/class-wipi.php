@@ -81,7 +81,7 @@ final class Wipi {
 		 *     @type array $item {
 		 *       Searchable item.
 		 *
-		 *       @type string $prefix Search result type.
+		 *       @type string $type Search result type.
 		 *       @type string $label Search result label.
 		 *       @type string $term Searchable term for this result.
 		 *       @type string $link Search result link.
@@ -163,18 +163,18 @@ final class Wipi {
 		$results = array();
 		foreach ( $posts as $post ) {
 			$results[] = array(
-				'prefix' => $post->post_type,
-				'label'  => $post->post_title,
-				'term'   => strtolower( $post->post_title ),
-				'link'   => get_edit_post_link( $post->ID, '' ),
+				'type'  => $post->post_type,
+				'label' => $post->post_title,
+				'term'  => strtolower( $post->post_title ),
+				'link'  => get_edit_post_link( $post->ID, '' ),
 			);
 		}
 		foreach ( $users as $user ) {
 			$results[] = array(
-				'prefix' => 'user',
-				'label'  => $user->display_name,
-				'term'   => strtolower( $user->display_name ),
-				'link'   => get_edit_user_link( $user->ID ),
+				'type'  => 'user',
+				'label' => $user->display_name,
+				'term'  => strtolower( $user->display_name ),
+				'link'  => get_edit_user_link( $user->ID ),
 			);
 		}
 
@@ -189,7 +189,7 @@ final class Wipi {
 		 *     @type array $item {
 		 *       Searchable item.
 		 *
-		 *       @type string $prefix Search result type.
+		 *       @type string $type Search result type.
 		 *       @type string $label Search result label.
 		 *       @type string $term Searchable term for this result.
 		 *       @type string $link Search result link.
