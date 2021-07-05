@@ -164,6 +164,7 @@ final class Wipi {
 		foreach ( $posts as $post ) {
 			$results[] = array(
 				'type'  => $post->post_type,
+				'icon'  => 'dashicons-admin-page',
 				'label' => $post->post_title,
 				'term'  => strtolower( $post->post_title ),
 				'link'  => get_edit_post_link( $post->ID, '' ),
@@ -172,6 +173,7 @@ final class Wipi {
 		foreach ( $users as $user ) {
 			$results[] = array(
 				'type'  => 'user',
+				'icon'  => 'dashicons-admin-users',
 				'label' => $user->display_name,
 				'term'  => strtolower( $user->display_name ),
 				'link'  => get_edit_user_link( $user->ID ),
