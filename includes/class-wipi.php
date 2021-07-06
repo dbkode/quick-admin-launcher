@@ -162,9 +162,21 @@ final class Wipi {
 		// Merge all results.
 		$results = array();
 		foreach ( $posts as $post ) {
+			// Get post type icon.
+			$ptype     = $post->post_type;
+			$ptype_obj = get_post_type_object( $ptype );
+			$icon      = 'dashicons-admin-post';
+			if ( is_string( $ptype_obj->menu_icon ) ) {
+				if ( 0 === strpos( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || 0 === strpos( $ptype_obj->menu_icon, 'dashicons-' ) ) {
+					$icon = $ptype_obj->menu_icon;
+				} else {
+					$icon = esc_url( $ptype_obj->menu_icon );
+				}
+			}
+
 			$results[] = array(
 				'type'  => $post->post_type,
-				'icon'  => 'dashicons-admin-page',
+				'icon'  => $icon,
 				'label' => $post->post_title,
 				'term'  => strtolower( $post->post_title ),
 				'link'  => get_edit_post_link( $post->ID, '' ),
