@@ -12,6 +12,11 @@
 <!-- Wipi Modal Wrapper -->
 <div id="wipi-modal" x-data="wipi()" x-init="init($nextTick)" x-show="modal" style="display: none;">
 
+	<!-- Wipi Logo -->
+	<div class="wipi-ribbon">
+		<div class="wipi-ribbon-content">Ⱳ</div>
+	</div>
+
 	<!-- Wipi input -->
 	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
 
@@ -21,7 +26,6 @@
 		<template x-for="(item, index) in results" :key="index">
 
 			<div class="wipi-modal-dropdown-item" :class="{'wipi-selected': index === selection}" @mouseover="resultsMouseOver(index)">
-
 				<!-- Dashicons icon -->
 				<template x-if="item.icon && item.icon.includes('dashicons-')">
 						<span class="dashicons-before" :class="[item.icon]"></span>
