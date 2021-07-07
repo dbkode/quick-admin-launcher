@@ -20,6 +20,9 @@
 	<!-- Wipi input -->
 	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
 
+	<!-- Wipi Spinner -->
+	<div class="spinner" :class="{'is-active': spinner}"></div>
+
 	<!-- Results area -->
 	<div class="wipi-modal-dropdown">
 

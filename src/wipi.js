@@ -70,6 +70,15 @@ function wipi() {
 		selection: 0,
 
 		/**
+		 * Is spinner visible.
+		 *
+		 * @since  1.0.0
+		 *
+		 * @type boolean
+		 */
+		 spinner: false,
+
+		/**
 		 * Server search timeout timer ID.
 		 *
 		 * @since 1.0.0
@@ -114,6 +123,7 @@ function wipi() {
 				// Esc - close modal.
 				if ( self.modal && 'Escape' === e.key ) {
 					self.modal = false;
+					self.spinner = false;
 				}
 
 				// Down key.
@@ -144,6 +154,7 @@ function wipi() {
 			document.addEventListener('click', function(e) {
 				if ( ! document.getElementById('wipi-modal').contains(e.target) ) {
 					self.modal = false;
+					self.spinner = false;
 				}
 			}, false);
 		},
@@ -230,6 +241,7 @@ function wipi() {
 			this.selection = 0;
 
 			// search posts.
+			this.spinner = true;
 			const termServer = term.replace(' ', '+');
 			clearTimeout(this.serverSearchTimeout);
 			this.serverSearchTimeout = setTimeout(async () => {
@@ -243,6 +255,7 @@ function wipi() {
 				responseJson.forEach(item => {
 					self.results.push(item);
 				});
+				this.spinner = false;
 			}, 300);
 		},
 
