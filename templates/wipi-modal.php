@@ -14,14 +14,14 @@
 
 	<!-- Wipi Logo -->
 	<div class="wipi-ribbon">
-		<div class="wipi-ribbon-content">Ⱳ</div>
+		<div class="wipi-ribbon-content" :class="{'wipi-ribbon-content-loading': spinner}">Ⱳ</div>
 	</div>
 
 	<!-- Wipi input -->
 	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
 
 	<!-- Wipi Spinner -->
-	<div class="spinner" :class="{'is-active': spinner}"></div>
+	<!-- <div class="spinner" :class="{'is-active': spinner}"></div> -->
 
 	<!-- Results area -->
 	<div class="wipi-modal-dropdown">
