@@ -83,7 +83,7 @@
 		clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 6px), 0 calc(100% - 12px));
 
 		&.wipi-ribbon-content-loading {
-			animation: wipiLoadingAnimation 1s ease infinite;
+			animation: wipiLoadingAnimation 1s ease-out infinite;
 		}
   }
 }
