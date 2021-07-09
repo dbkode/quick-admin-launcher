@@ -60,6 +60,9 @@ final class Wipi {
 
 		// Add wipi modal to admin.
 		add_action( 'admin_footer', array( $this, 'modal_html' ) );
+
+		// Add settings page.
+		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 	}
 
 	/**
@@ -214,5 +217,31 @@ final class Wipi {
 		$results = apply_filters( 'wipi_server_search_results', $results, $term );
 
 		return $results;
+	}
+
+	/**
+	 * Adds a settings page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_settings_page() {
+		add_options_page( __( 'Wipi Settings', 'wipi' ), __( 'Wipi', 'wipi' ), 'manage_options', 'wipi-settings', array( $this, 'render_settings' ) );
+	}
+
+	/**
+	 * Renders the settings page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_settings() {
+		?>
+		<h2><?php _e( 'Wipi Settings', 'wipi' ); ?></h2>
+		<form action="options.php" method="post">
+        <?php 
+        settings_fields( 'wipi_settings' );
+        do_settings_sections( 'wipi_settings' ); ?>
+        <input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
+    </form>
+		<?php
 	}
 }
