@@ -63,6 +63,7 @@ final class Wipi {
 
 		// Add settings page.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
 	/**
@@ -225,7 +226,13 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function add_settings_page() {
-		add_options_page( __( 'Wipi Settings', 'wipi' ), __( 'Wipi', 'wipi' ), 'manage_options', 'wipi-settings', array( $this, 'render_settings' ) );
+		add_options_page(
+			__( 'Wipi Settings', 'wipi' ),
+			__( 'Wipi', 'wipi' ),
+			'manage_options',
+			'wipi-settings',
+			array( $this, 'render_settings_page' )
+		);
 	}
 
 	/**
@@ -233,7 +240,7 @@ final class Wipi {
 	 *
 	 * @since 1.0.0
 	 */
-	public function render_settings() {
+	public function render_settings_page() {
 		?>
 		<h2><?php _e( 'Wipi Settings', 'wipi' ); ?></h2>
 		<form action="options.php" method="post">
@@ -242,6 +249,42 @@ final class Wipi {
         do_settings_sections( 'wipi_settings' ); ?>
         <input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
     </form>
+		<?php
+	}
+
+	/**
+	 * Registers the settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_settings() {
+		register_setting( 'wipi_settings', 'wipi_settings' );
+		add_settings_section( 'wipi_settings_section', __( 'General Settings', 'wipi' ), '__return_true', 'wipi_settings' );
+
+		add_settings_field(
+			'wipi_setting_post_types',
+			__( 'Post Types', 'wipi' ),
+			array( $this, 'render_setting_post_types' ),
+			'wipi_settings',
+			'wipi_settings_section'
+		);
+	}
+
+	public function render_setting_post_types() {
+		$options    = get_option( 'wipi_settings' );
+		$value = array();
+    if ( isset( $options['post_types'] ) && ! empty( $options['post_types'] ) ) {
+        $value = $options['post_types'];
+    }
+		$post_types = get_post_types( array(), 'objects' );
+		?>
+		
+		<?php foreach( $post_types as $post_type ) : ?>
+			<label for="wipi_setting_post_type_<?php echo $post_type->name; ?>">
+				<input type="checkbox" id="wipi_setting_post_type_<?php echo $post_type->name; ?>" name="wipi_settings[post_types][]" value="1" <?php echo in_array( $post_type->name, $value ) ? 'checked' : ''; ?> /> <?php echo $post_type->label; ?>
+			</label>
+		<?php endforeach; ?>
+
 		<?php
 	}
 }
