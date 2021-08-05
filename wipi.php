@@ -28,7 +28,8 @@ function wipi_activate() {
 	$options = get_option( 'wipi_settings' );
 	if ( false === $options ) {
 		$default = array(
-			'post_types' => array( 'page', 'post' ),
+			'post_types'   => array( 'page', 'post' ),
+			'users_search' => 1,
 		);
 		update_option( 'wipi_settings', $default );
 	}

@@ -129,23 +129,16 @@ final class Wipi {
 	 * @return array Posts found.
 	 */
 	public function rest_search( $data ) {
-		$term = $data['term'];
+		$term    = $data['term'];
+		$options = get_option( 'wipi_settings' );
 
 		// Search on posts.
-		$options    = get_option( 'wipi_settings' );
 		$post_types = $options['post_types'];
 		$posts      = get_posts(
 			array(
 				's'         => $term,
 				'post_type' => $post_types,
 			)
-		);
-
-		// Search on users.
-		$users = get_users(
-			array(
-				'search' => $term,
-			),
 		);
 
 		// Merge all results.
@@ -171,14 +164,25 @@ final class Wipi {
 				'link'  => get_edit_post_link( $post->ID, '' ),
 			);
 		}
-		foreach ( $users as $user ) {
-			$results[] = array(
-				'type'  => 'user',
-				'icon'  => 'dashicons-admin-users',
-				'label' => $user->display_name,
-				'term'  => strtolower( $user->display_name ),
-				'link'  => get_edit_user_link( $user->ID ),
+
+		// Search on users.
+		$users_search = isset( $options['users_search'] ) ? $options['users_search'] : false;
+		if ( $users_search ) {
+			$users = get_users(
+				array(
+					'search' => $term,
+				),
 			);
+
+			foreach ( $users as $user ) {
+				$results[] = array(
+					'type'  => 'user',
+					'icon'  => 'dashicons-admin-users',
+					'label' => $user->display_name,
+					'term'  => strtolower( $user->display_name ),
+					'link'  => get_edit_user_link( $user->ID ),
+				);
+			}
 		}
 
 		/**
@@ -254,6 +258,14 @@ final class Wipi {
 			'wipi_settings',
 			'wipi_settings_section'
 		);
+
+		add_settings_field(
+			'wipi_setting_users_search',
+			__( 'Enable Users Search', 'wipi' ),
+			array( $this, 'render_setting_users_search' ),
+			'wipi_settings',
+			'wipi_settings_section'
+		);
 	}
 
 	/**
@@ -289,6 +301,29 @@ final class Wipi {
 				</label>
 				<br>
 			<?php endforeach; ?>
+		</fieldset>
+
+		<?php
+	}
+
+	/**
+	 * Render setting allow users search.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_setting_users_search() {
+		$options = get_option( 'wipi_settings' );
+		$value   = isset( $options['users_search'] ) ? $options['users_search'] : false;
+		?>
+		<fieldset>
+			<label for="wipi_setting_users_search">
+				<input type="checkbox"
+					id="wipi_setting_users_search"
+					name="wipi_settings[users_search]"
+					value="1"
+					<?php checked( 1, $value ); ?> />
+					<?php esc_html_e( 'This will turn on users searching.', 'wipi' ); ?>
+			</label>
 		</fieldset>
 
 		<?php
