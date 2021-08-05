@@ -131,38 +131,40 @@ final class Wipi {
 	public function rest_search( $data ) {
 		$term    = $data['term'];
 		$options = get_option( 'wipi_settings' );
+		$results = array();
 
 		// Search on posts.
-		$post_types = $options['post_types'];
-		$posts      = get_posts(
-			array(
-				's'         => $term,
-				'post_type' => $post_types,
-			)
-		);
-
-		// Merge all results.
-		$results = array();
-		foreach ( $posts as $post ) {
-			// Get post type icon.
-			$ptype     = $post->post_type;
-			$ptype_obj = get_post_type_object( $ptype );
-			$icon      = 'dashicons-admin-post';
-			if ( is_string( $ptype_obj->menu_icon ) ) {
-				if ( 0 === strpos( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || 0 === strpos( $ptype_obj->menu_icon, 'dashicons-' ) ) {
-					$icon = $ptype_obj->menu_icon;
-				} else {
-					$icon = esc_url( $ptype_obj->menu_icon );
-				}
-			}
-
-			$results[] = array(
-				'type'  => $post->post_type,
-				'icon'  => $icon,
-				'label' => $post->post_title,
-				'term'  => strtolower( $post->post_title ),
-				'link'  => get_edit_post_link( $post->ID, '' ),
+		$post_types = isset( $options['post_types'] ) ? $options['post_types'] : false;
+		if ( $post_types ) {
+			$posts      = get_posts(
+				array(
+					's'         => $term,
+					'post_type' => $post_types,
+				)
 			);
+
+			// Merge all results.
+			foreach ( $posts as $post ) {
+				// Get post type icon.
+				$ptype     = $post->post_type;
+				$ptype_obj = get_post_type_object( $ptype );
+				$icon      = 'dashicons-admin-post';
+				if ( is_string( $ptype_obj->menu_icon ) ) {
+					if ( 0 === strpos( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || 0 === strpos( $ptype_obj->menu_icon, 'dashicons-' ) ) {
+						$icon = $ptype_obj->menu_icon;
+					} else {
+						$icon = esc_url( $ptype_obj->menu_icon );
+					}
+				}
+
+				$results[] = array(
+					'type'  => $post->post_type,
+					'icon'  => $icon,
+					'label' => $post->post_title,
+					'term'  => strtolower( $post->post_title ),
+					'link'  => get_edit_post_link( $post->ID, '' ),
+				);
+			}
 		}
 
 		// Search on users.
