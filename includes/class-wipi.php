@@ -132,10 +132,12 @@ final class Wipi {
 		$term = $data['term'];
 
 		// Search on posts.
-		$posts = get_posts(
+		$options    = get_option( 'wipi_settings' );
+		$post_types = $options['post_types'];
+		$posts      = get_posts(
 			array(
 				's'         => $term,
-				'post_type' => 'any',
+				'post_type' => $post_types,
 			)
 		);
 
