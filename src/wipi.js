@@ -107,10 +107,25 @@ function wipi() {
 				Array.prototype.push.apply(this.adminMenu, wipiData.extra_items);
 			}
 
+			// Convert hotkey keys to booleans
+			wipiData.hotkey.alt   = wipiData.hotkey.alt ? true : false;
+			wipiData.hotkey.ctrl  = wipiData.hotkey.ctrl ? true : false;
+			wipiData.hotkey.shift = wipiData.hotkey.shift ? true : false;
+			wipiData.hotkey.meta  = wipiData.hotkey.meta ? true : false;
+
 			// Setup Hotkeys.
 			document.addEventListener('keyup', function(e) {
+				// Bail out if setting the hotkey on settings page.
+				if( 'wipi_setting_hotkey_display' === document.activeElement.id ) {
+					return;
+				}
+
 				// Toggle modal.
-				if ( e.ctrlKey && ' ' === e.key ) {
+				if ( wipiData.hotkey.key === e.key 
+					&& wipiData.hotkey.alt === e.altKey
+					&& wipiData.hotkey.ctrl === e.ctrlKey
+					&& wipiData.hotkey.shift === e.shiftKey
+					&& wipiData.hotkey.meta === e.metaKey ) {
 					self.modal = !self.modal;
 
 					if ( self.modal ) {

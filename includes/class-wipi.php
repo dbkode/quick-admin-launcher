@@ -78,6 +78,16 @@ final class Wipi {
 		 */
 		$extra_items = apply_filters( 'wipi_extra_items', array() );
 
+		// Get hotkey from settings.
+		$options = get_option( 'wipi_settings' );
+		$hotkey  = array(
+			'key'   => isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '',
+			'alt'   => isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '',
+			'ctrl'  => isset( $options['hotkey_ctrl'] ) ? $options['hotkey_ctrl'] : '',
+			'shift' => isset( $options['hotkey_shift'] ) ? $options['hotkey_shift'] : '',
+			'meta'  => isset( $options['hotkey_meta'] ) ? $options['hotkey_meta'] : '',
+		);
+
 		wp_localize_script(
 			'wipi-js',
 			'wipiData',
@@ -85,6 +95,7 @@ final class Wipi {
 				'rest'        => esc_url_raw( rest_url( 'wipi/v1' ) ),
 				'nonce'       => wp_create_nonce( 'wp_rest' ),
 				'extra_items' => $extra_items,
+				'hotkey'      => $hotkey,
 			)
 		);
 	}
@@ -253,6 +264,7 @@ final class Wipi {
 		register_setting( 'wipi_settings', 'wipi_settings' );
 		add_settings_section( 'wipi_settings_section', '', '__return_true', 'wipi_settings' );
 
+		// Post types setting.
 		add_settings_field(
 			'wipi_setting_post_types',
 			__( 'Post Types', 'wipi' ),
@@ -261,10 +273,20 @@ final class Wipi {
 			'wipi_settings_section'
 		);
 
+		// Users search setting.
 		add_settings_field(
 			'wipi_setting_users_search',
 			__( 'Enable Users Search', 'wipi' ),
 			array( $this, 'render_setting_users_search' ),
+			'wipi_settings',
+			'wipi_settings_section'
+		);
+
+		// Hotkey setting.
+		add_settings_field(
+			'wipi_setting_hotkey',
+			__( 'Hotkey', 'wipi' ),
+			array( $this, 'render_setting_hotkey' ),
 			'wipi_settings',
 			'wipi_settings_section'
 		);
@@ -328,6 +350,67 @@ final class Wipi {
 			</label>
 		</fieldset>
 
+		<?php
+	}
+
+	/**
+	 * Render setting for the global hotkey.
+	 *
+	 * @since 1.0.0
+	 */
+	public function render_setting_hotkey() {
+		$options        = get_option( 'wipi_settings' );
+		$hotkey_display = isset( $options['hotkey_display'] ) ? $options['hotkey_display'] : '';
+		$hotkey_key     = isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '';
+		$hotkey_alt     = isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '';
+		$hotkey_ctrl    = isset( $options['hotkey_ctrl'] ) ? $options['hotkey_ctrl'] : '';
+		$hotkey_shift   = isset( $options['hotkey_shift'] ) ? $options['hotkey_shift'] : '';
+		$hotkey_meta    = isset( $options['hotkey_meta'] ) ? $options['hotkey_meta'] : '';
+		?>
+		<fieldset>
+			<input type="hidden" id="wipi_setting_hotkey_key" name="wipi_settings[hotkey_key]" value="<?php echo esc_html( $hotkey_key ); ?>">
+			<input type="hidden" id="wipi_setting_hotkey_alt" name="wipi_settings[hotkey_alt]" value="<?php echo esc_html( $hotkey_alt ); ?>">
+			<input type="hidden" id="wipi_setting_hotkey_ctrl" name="wipi_settings[hotkey_ctrl]" value="<?php echo esc_html( $hotkey_ctrl ); ?>">
+			<input type="hidden" id="wipi_setting_hotkey_shift" name="wipi_settings[hotkey_shift]" value="<?php echo esc_html( $hotkey_shift ); ?>">
+			<input type="hidden" id="wipi_setting_hotkey_meta" name="wipi_settings[hotkey_meta]" value="<?php echo esc_html( $hotkey_meta ); ?>">
+			<label for="wipi_setting_hotkey">
+				<input type="text"
+					id="wipi_setting_hotkey_display"
+					name="wipi_settings[hotkey_display]"
+					value="<?php echo esc_html( $hotkey_display ); ?>" >
+			</label>
+			<br><i><?php esc_html_e( 'Click this input and press a combination of keys to open Wipi search window.', 'wipi' ); ?></i>
+		</fieldset>
+
+		<script>
+			var wipi_hotkey_input = document.getElementById('wipi_setting_hotkey_display');
+			wipi_hotkey_input.onkeypress = function(e) {
+				e.preventDefault();
+				var value = e.code.replace('Key', '');
+				if ( e.altKey ) {
+					value = 'ALT + ' + value;
+				}
+				if ( e.ctrlKey ) {
+					value = 'CTRL + ' + value;
+				}
+				if ( e.shiftKey ) {
+					value = 'SHIFT + ' + value;
+				}
+				if ( e.metaKey ) {
+					value = 'SPECIAL + ' + value;
+				}
+				wipi_hotkey_input.value = value;
+
+				// hidden inputs.
+				document.getElementById('wipi_setting_hotkey_key').value = e.key;
+				document.getElementById('wipi_setting_hotkey_alt').value = e.altKey ? 1 : '';
+				document.getElementById('wipi_setting_hotkey_ctrl').value = e.ctrlKey ? 1 : '';
+				document.getElementById('wipi_setting_hotkey_shift').value = e.shiftKey ? 1 : '';
+				document.getElementById('wipi_setting_hotkey_meta').value = e.metaKey ? 1 : '';
+
+				return false;
+			}
+		</script>
 		<?php
 	}
 }

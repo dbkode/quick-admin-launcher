@@ -30,6 +30,13 @@ function wipi_activate() {
 		$default = array(
 			'post_types'   => array( 'page', 'post' ),
 			'users_search' => 1,
+			'hotkey'       => array(
+				'display' => 'CTRL + Space',
+				'alt'     => '',
+				'ctrl'    => 1,
+				'shift'   => '',
+				'meta'    => '',
+			),
 		);
 		update_option( 'wipi_settings', $default );
 	}
