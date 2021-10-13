@@ -27,6 +27,14 @@ final class Wipi {
 	 */
 	public function init() {
 		add_action( 'init', array( $this, 'setup' ) );
+
+		// add one more test
+		$a = array('1', '2');
+
+		// test stuff.
+		if($a === 2) {
+			$a = false;
+		}
 	}
 
 	/**
