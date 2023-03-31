@@ -108,7 +108,7 @@ window.Alpine = Alpine
 			wipiData.hotkey.meta  = wipiData.hotkey.meta ? true : false;
 
 			// Setup Hotkeys.
-			document.addEventListener('keyup', function(e) {
+			document.addEventListener('keydown', function(e) {
 				// Bail out if setting the hotkey on settings page.
 				if( 'wipi_setting_hotkey_display' === document.activeElement.id ) {
 					return;
