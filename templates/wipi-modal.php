@@ -10,7 +10,7 @@
 ?>
 
 <!-- Wipi Modal Wrapper -->
-<div id="wipi-modal" x-data="wipi()" x-init="init($nextTick)" x-show="modal" style="display: none;">
+<div id="wipi-modal" x-data="wipi" x-init="$nextTick(() => { setup(); })" x-show="modal" style="display: none;">
 
 	<!-- Wipi Logo -->
 	<div class="wipi-ribbon">
