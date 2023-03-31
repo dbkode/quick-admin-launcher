@@ -90,7 +90,7 @@ window.Alpine = Alpine
 		 *
 		 * @return void
 		 */
-		setup() {
+		init() {
 			const self = this;
 
 			// Get WP admin menu.
@@ -108,7 +108,7 @@ window.Alpine = Alpine
 			wipiData.hotkey.meta  = wipiData.hotkey.meta ? true : false;
 
 			// Setup Hotkeys.
-			document.addEventListener('keyup', function(e) {
+			document.addEventListener('keydown', function(e) {
 				// Bail out if setting the hotkey on settings page.
 				if( 'wipi_setting_hotkey_display' === document.activeElement.id ) {
 					return;
@@ -123,8 +123,12 @@ window.Alpine = Alpine
 					self.modal = !self.modal;
 
 					if ( self.modal ) {
-						document.getElementById('wipi-modal-input').focus();
+						setTimeout(() => {
+							document.getElementById('wipi-modal-input').focus();
+						}, 100);
 					}
+
+					e.preventDefault();
 				}
 
 				// Esc - close modal.
