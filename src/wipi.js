@@ -9,21 +9,15 @@
 /**
  * Dependencies.
  */
-import 'alpinejs'
+import Alpine from 'alpinejs' 
 import './wipi.scss'
 
- /**
- * Wipi modal AlpineJS handler.
- *
- * JS code to handle AlpineJS interactions.
- *
- * @since 1.0.0
- *
- * @returns object The AlpineJS object.
- */
-function wipi() {
-	return {
+window.Alpine = Alpine 
 
+
+
+//document.addEventListener('alpine:init', () => {
+	Alpine.data('wipi', () => ({
 		/**
 		 * Is modal visible.
 		 *
@@ -96,7 +90,7 @@ function wipi() {
 		 *
 		 * @return void
 		 */
-		init(nextTick) {
+		setup() {
 			const self = this;
 
 			// Get WP admin menu.
@@ -129,9 +123,7 @@ function wipi() {
 					self.modal = !self.modal;
 
 					if ( self.modal ) {
-						nextTick(() => {
-							document.getElementById('wipi-modal-input').focus();
-						});
+						document.getElementById('wipi-modal-input').focus();
 					}
 				}
 
@@ -283,7 +275,8 @@ function wipi() {
 				return false;
 			}
 		}
-	}
-}
 
-window.wipi = wipi;
+	}))
+//})
+
+Alpine.start()

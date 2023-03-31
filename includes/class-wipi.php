@@ -37,6 +37,7 @@ final class Wipi {
 	public function setup() {
 		// Enqueue admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_filter( 'script_loader_tag', array( $this, 'defer_parsing_of_js' ), 10 );
 
 		// Register rest functions.
 		add_action( 'rest_api_init', array( $this, 'register_api_routes' ) );
@@ -98,6 +99,13 @@ final class Wipi {
 				'hotkey'      => $hotkey,
 			)
 		);
+	}
+
+	public function defer_parsing_of_js( $url ) {
+		if ( strpos( $url, 'wipi.js' ) ) {
+			return str_replace( ' src', ' defer src', $url );
+		}
+		return $url;
 	}
 
 	/**
