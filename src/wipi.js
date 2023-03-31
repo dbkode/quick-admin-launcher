@@ -90,7 +90,7 @@ window.Alpine = Alpine
 		 *
 		 * @return void
 		 */
-		setup() {
+		init() {
 			const self = this;
 
 			// Get WP admin menu.
@@ -123,8 +123,12 @@ window.Alpine = Alpine
 					self.modal = !self.modal;
 
 					if ( self.modal ) {
-						document.getElementById('wipi-modal-input').focus();
+						setTimeout(() => {
+							document.getElementById('wipi-modal-input').focus();
+						}, 100);
 					}
+
+					e.preventDefault();
 				}
 
 				// Esc - close modal.
