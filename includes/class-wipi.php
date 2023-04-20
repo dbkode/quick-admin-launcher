@@ -48,6 +48,9 @@ final class Wipi {
 		// Add settings page.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		// Add wipi link to admin bar
+		add_action( 'admin_bar_menu', array( $this, 'add_admin_menu_item' ), 999 );
 	}
 
 	/**
@@ -420,5 +423,23 @@ final class Wipi {
 			}
 		</script>
 		<?php
+	}
+
+	/**
+	 * Add admin bar menu item.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_admin_menu_item($wp_admin_bar) {
+		$args = array(
+				'id' => 'wipi-admin-bar',
+				'title' => 'Wipi',
+				'href' => '#',
+				'meta' => array(
+					'class' => 'wipi-admin-bar',
+					'title' => 'Wipi Quick Launcher'
+				)
+		);
+		$wp_admin_bar->add_node($args);
 	}
 }

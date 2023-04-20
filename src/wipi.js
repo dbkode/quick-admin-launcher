@@ -107,6 +107,17 @@ window.Alpine = Alpine
 			wipiData.hotkey.shift = wipiData.hotkey.shift ? true : false;
 			wipiData.hotkey.meta  = wipiData.hotkey.meta ? true : false;
 
+			// Add click event to admin bar button.
+			document.querySelector('.wipi-admin-bar > a').addEventListener('click', (e) => {
+				self.modal = !self.modal;
+				if ( self.modal ) {
+					setTimeout(() => {
+						document.getElementById('wipi-modal-input').focus();
+					}, 100);
+				}
+				e.preventDefault();
+			});
+
 			// Setup Hotkeys.
 			document.addEventListener('keydown', function(e) {
 				// Bail out if setting the hotkey on settings page.
@@ -163,7 +174,8 @@ window.Alpine = Alpine
 
 			// Mouse click outside Wipi to close it.
 			document.addEventListener('click', function(e) {
-				if ( ! document.getElementById('wipi-modal').contains(e.target) ) {
+				if ( ! document.getElementById('wipi-modal').contains(e.target)
+					&& ! document.querySelector('.wipi-admin-bar').contains(e.target) ) {
 					self.modal = false;
 					self.spinner = false;
 				}
