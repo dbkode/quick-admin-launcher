@@ -51,6 +51,9 @@ final class Wipi {
 
 		// Add wipi link to admin bar
 		add_action( 'admin_bar_menu', array( $this, 'add_admin_menu_item' ), 999 );
+
+		// Add a settings link to the plugins page.
+		add_filter( 'plugin_action_links_wipi/wipi.php', array( $this, 'add_settings_link' ) );
 	}
 
 	/**
@@ -429,8 +432,10 @@ final class Wipi {
 	 * Add admin bar menu item.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance.
 	 */
-	public function add_admin_menu_item($wp_admin_bar) {
+	public function add_admin_menu_item( $wp_admin_bar ) {
 		$args = array(
 				'id' => 'wipi-admin-bar',
 				'title' => 'Wipi',
@@ -440,6 +445,20 @@ final class Wipi {
 					'title' => 'Wipi Quick Launcher'
 				)
 		);
-		$wp_admin_bar->add_node($args);
+		$wp_admin_bar->add_node( $args );
+	}
+
+	/**
+	 * Add settings link to plugin page.
+	 *
+	 * @since 1.0.
+	 *
+	 * @param array $links Array of links.
+	 * @return array Array of links.
+	 */
+	public function add_settings_link( $links ) {
+		$settings_link = '<a href="options-general.php?page=wipi-settings">' . __( 'Settings' ) . '</a>';
+		array_push( $links, $settings_link );
+		return $links;
 	}
 }
