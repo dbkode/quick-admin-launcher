@@ -1,5 +1,5 @@
 {
-  "name": "wipi",
+  "name": "wordpress-admin-launcher",
   "version": "1.0.0",
   "description": "Contributors: dbeja Requires at least: 4.7 Tested up to: 5.5.1 Requires PHP: 5.6",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dbkode/wipi.git"
+    "url": "git+https://github.com/dbkode/wpal.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dbkode/wipi/issues"
+    "url": "https://github.com/dbkode/wpal/issues"
   },
-  "homepage": "https://github.com/dbkode/wipi#readme",
+  "homepage": "https://github.com/dbkode/wpal#readme",
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",

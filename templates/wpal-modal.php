@@ -1,34 +1,34 @@
 <?php
 /**
- * Wipi Modal HTML Template
+ * Wpal Modal HTML Template
  *
- * @package Wipi
+ * @package Wpal
  * @subpackage Core
  * @since 1.0.0
  */
 
 ?>
 
-<!-- Wipi Modal Wrapper -->
-<div id="wipi-modal" x-data="wipi" x-show="modal" style="display: none;">
+<!-- Wpal Modal Wrapper -->
+<div id="wpal-modal" x-data="wpal" x-show="modal" style="display: none;">
 
-	<!-- Wipi Logo -->
-	<div class="wipi-ribbon">
-		<div class="wipi-ribbon-content" :class="{'wipi-ribbon-content-loading': spinner}">Ⱳ</div>
+	<!-- Wpal Logo -->
+	<div class="wpal-ribbon">
+		<div class="wpal-ribbon-content" :class="{'wpal-ribbon-content-loading': spinner}">Ⱳ</div>
 	</div>
 
-	<!-- Wipi input -->
-	<input id="wipi-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
+	<!-- Wpal input -->
+	<input id="wpal-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
 
-	<!-- Wipi Spinner -->
+	<!-- Wpal Spinner -->
 	<!-- <div class="spinner" :class="{'is-active': spinner}"></div> -->
 
 	<!-- Results area -->
-	<div class="wipi-modal-dropdown">
+	<div class="wpal-modal-dropdown">
 
 		<template x-for="(item, index) in results" :key="index">
 
-			<div class="wipi-modal-dropdown-item" :class="{'wipi-selected': index === selection}" @mouseover="resultsMouseOver(index)">
+			<div class="wpal-modal-dropdown-item" :class="{'wpal-selected': index === selection}" @mouseover="resultsMouseOver(index)">
 				<!-- Dashicons icon -->
 				<template x-if="item.icon && item.icon.includes('dashicons-')">
 						<span class="dashicons-before" :class="[item.icon]"></span>
@@ -36,7 +36,7 @@
 
 				<!-- Base64 icon -->
 				<template x-if="item.icon && item.icon.includes('base64')">
-					<span class="wipi-icon-base64" :style="'background-image: url(' + item.icon + ')'"></span>
+					<span class="wpal-icon-base64" :style="'background-image: url(' + item.icon + ')'"></span>
 				</template>
 
 				<!-- Result label -->
@@ -46,7 +46,7 @@
 
 				<!-- Result type -->
 				<template x-if="item.type">
-					<div class="wipi-result-type">
+					<div class="wpal-result-type">
 						(<span x-text="item.type"></span>)
 					</div>
 				</template>

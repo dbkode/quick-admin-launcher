@@ -1,24 +1,24 @@
 <?php
 /**
- * Main Wipi class file
+ * Main Wpal class file
  *
- * @package Wipi
+ * @package Wpal
  * @subpackage Core
  * @since 1.0.0
  */
 
-namespace WIPI;
+namespace WPAL;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Wipi class.
+ * Wpal class.
  *
  * @since 1.0.0
  */
-final class Wipi {
+final class Wpal {
 
 	/**
 	 * Plugin initializer
@@ -42,18 +42,19 @@ final class Wipi {
 		// Register rest functions.
 		add_action( 'rest_api_init', array( $this, 'register_api_routes' ) );
 
-		// Add wipi modal to admin.
+		// Add wpal modal to admin.
 		add_action( 'admin_footer', array( $this, 'modal_html' ) );
 
 		// Add settings page.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-		// Add wipi link to admin bar
+		// Add wpal link to admin bar
 		add_action( 'admin_bar_menu', array( $this, 'add_admin_menu_item' ), 999 );
 
 		// Add a settings link to the plugins page.
-		add_filter( 'plugin_action_links_wipi/wipi.php', array( $this, 'add_settings_link' ) );
+		$plugin_dir_name = basename( WPAL_PLUGIN_DIR );
+		add_filter( 'plugin_action_links_' . $plugin_dir_name . '/wpal.php', array( $this, 'add_settings_link' ) );
 	}
 
 	/**
@@ -62,7 +63,7 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script( 'wipi-js', WIPI_PLUGIN_URL . '/dist/wipi.js', array(), WIPI_VERSION, false );
+		wp_enqueue_script( 'wpal-js', WPAL_PLUGIN_URL . '/dist/wpal.js', array(), WPAL_VERSION, false );
 
 		/**
 		 * Filters any additional items to be searchable.
@@ -70,7 +71,7 @@ final class Wipi {
 		 * @since 1.0.0
 		 *
 		 * @param array $extra_items {
-		 *   Array of extra items to be searchable by Wipi. Defaul empty array.
+		 *   Array of extra items to be searchable by Wpal. Defaul empty array.
 		 *
 		 *     @type array $item {
 		 *       Searchable item.
@@ -83,10 +84,10 @@ final class Wipi {
 		 *     }
 		 * }
 		 */
-		$extra_items = apply_filters( 'wipi_extra_items', array() );
+		$extra_items = apply_filters( 'wpal_extra_items', array() );
 
 		// Get hotkey from settings.
-		$options = get_option( 'wipi_settings' );
+		$options = get_option( 'wpal_settings' );
 		$hotkey  = array(
 			'key'   => isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '',
 			'alt'   => isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '',
@@ -96,10 +97,10 @@ final class Wipi {
 		);
 
 		wp_localize_script(
-			'wipi-js',
-			'wipiData',
+			'wpal-js',
+			'wpalData',
 			array(
-				'rest'        => esc_url_raw( rest_url( 'wipi/v1' ) ),
+				'rest'        => esc_url_raw( rest_url( 'wpal/v1' ) ),
 				'nonce'       => wp_create_nonce( 'wp_rest' ),
 				'extra_items' => $extra_items,
 				'hotkey'      => $hotkey,
@@ -108,14 +109,14 @@ final class Wipi {
 	}
 
 	public function defer_parsing_of_js( $url ) {
-		if ( strpos( $url, 'wipi.js' ) ) {
+		if ( strpos( $url, 'wpal.js' ) ) {
 			return str_replace( ' src', ' defer src', $url );
 		}
 		return $url;
 	}
 
 	/**
-	 * Register API Routes for Wipi.
+	 * Register API Routes for Wpal.
 	 *
 	 * @since 1.0.0
 	 */
@@ -123,7 +124,7 @@ final class Wipi {
 
 		// Search posts route.
 		register_rest_route(
-			'wipi/v1',
+			'wpal/v1',
 			'/search/(?P<term>\S+)',
 			array(
 				'methods'             => 'GET',
@@ -137,12 +138,12 @@ final class Wipi {
 	}
 
 	/**
-	 * Add Wipi Modal HTML to footer.
+	 * Add Wpal Modal HTML to footer.
 	 *
 	 * @since 1.0.0
 	 */
 	public function modal_html() {
-		include WIPI_PLUGIN_DIR . 'templates/wipi-modal.php';
+		include WPAL_PLUGIN_DIR . 'templates/wpal-modal.php';
 	}
 
 	/**
@@ -155,7 +156,7 @@ final class Wipi {
 	 */
 	public function rest_search( $data ) {
 		$term    = $data['term'];
-		$options = get_option( 'wipi_settings' );
+		$options = get_option( 'wpal_settings' );
 		$results = array();
 
 		// Search on posts.
@@ -231,7 +232,7 @@ final class Wipi {
 		 *     }
 		 * }
 		 */
-		$results = apply_filters( 'wipi_server_search_results', $results, $term );
+		$results = apply_filters( 'wpal_server_search_results', $results, $term );
 
 		return $results;
 	}
@@ -243,10 +244,10 @@ final class Wipi {
 	 */
 	public function add_settings_page() {
 		add_options_page(
-			__( 'Wipi Settings', 'wipi' ),
-			__( 'Wipi', 'wipi' ),
+			__( 'WP Admin Launcher', 'wpal' ),
+			__( 'WP Admin Launcher', 'wpal' ),
 			'manage_options',
-			'wipi-settings',
+			'wpal-settings',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -258,11 +259,11 @@ final class Wipi {
 	 */
 	public function render_settings_page() {
 		?>
-		<h2><?php esc_html_e( 'Wipi Settings', 'wipi' ); ?></h2>
+		<h2><?php esc_html_e( 'WP Admin Launcher Settings', 'wpal' ); ?></h2>
 		<form action="options.php" method="post">
 				<?php
-				settings_fields( 'wipi_settings' );
-				do_settings_sections( 'wipi_settings' );
+				settings_fields( 'wpal_settings' );
+				do_settings_sections( 'wpal_settings' );
 				?>
 				<input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
 		</form>
@@ -275,34 +276,34 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function register_settings() {
-		register_setting( 'wipi_settings', 'wipi_settings' );
-		add_settings_section( 'wipi_settings_section', '', '__return_true', 'wipi_settings' );
+		register_setting( 'wpal_settings', 'wpal_settings' );
+		add_settings_section( 'wpal_settings_section', '', '__return_true', 'wpal_settings' );
 
 		// Post types setting.
 		add_settings_field(
-			'wipi_setting_post_types',
-			__( 'Post Types', 'wipi' ),
+			'wpal_setting_post_types',
+			__( 'Post Types', 'wpal' ),
 			array( $this, 'render_setting_post_types' ),
-			'wipi_settings',
-			'wipi_settings_section'
+			'wpal_settings',
+			'wpal_settings_section'
 		);
 
 		// Users search setting.
 		add_settings_field(
-			'wipi_setting_users_search',
-			__( 'Enable Users Search', 'wipi' ),
+			'wpal_setting_users_search',
+			__( 'Enable Users Search', 'wpal' ),
 			array( $this, 'render_setting_users_search' ),
-			'wipi_settings',
-			'wipi_settings_section'
+			'wpal_settings',
+			'wpal_settings_section'
 		);
 
 		// Hotkey setting.
 		add_settings_field(
-			'wipi_setting_hotkey',
-			__( 'Hotkey', 'wipi' ),
+			'wpal_setting_hotkey',
+			__( 'Hotkey', 'wpal' ),
 			array( $this, 'render_setting_hotkey' ),
-			'wipi_settings',
-			'wipi_settings_section'
+			'wpal_settings',
+			'wpal_settings_section'
 		);
 	}
 
@@ -312,7 +313,7 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function render_setting_post_types() {
-		$options = get_option( 'wipi_settings' );
+		$options = get_option( 'wpal_settings' );
 
 		$value = array();
 		if ( isset( $options['post_types'] ) && ! empty( $options['post_types'] ) ) {
@@ -329,10 +330,10 @@ final class Wipi {
 		?>
 		<fieldset>
 			<?php foreach ( $post_types as $post_type ) : ?>
-				<label for="wipi_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>">
+				<label for="wpal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>">
 					<input type="checkbox"
-						id="wipi_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>"
-						name="wipi_settings[post_types][]"
+						id="wpal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>"
+						name="wpal_settings[post_types][]"
 						value="<?php echo esc_attr( $post_type->name ); ?>"
 						<?php echo in_array( $post_type->name, $value, true ) ? 'checked' : ''; ?> />
 						<?php echo esc_html( $post_type->label ); ?>
@@ -350,17 +351,17 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function render_setting_users_search() {
-		$options = get_option( 'wipi_settings' );
+		$options = get_option( 'wpal_settings' );
 		$value   = isset( $options['users_search'] ) ? $options['users_search'] : false;
 		?>
 		<fieldset>
-			<label for="wipi_setting_users_search">
+			<label for="wpal_setting_users_search">
 				<input type="checkbox"
-					id="wipi_setting_users_search"
-					name="wipi_settings[users_search]"
+					id="wpal_setting_users_search"
+					name="wpal_settings[users_search]"
 					value="1"
 					<?php checked( 1, $value ); ?> />
-					<?php esc_html_e( 'This will turn on users searching.', 'wipi' ); ?>
+					<?php esc_html_e( 'This will turn on users searching.', 'wpal' ); ?>
 			</label>
 		</fieldset>
 
@@ -373,7 +374,7 @@ final class Wipi {
 	 * @since 1.0.0
 	 */
 	public function render_setting_hotkey() {
-		$options        = get_option( 'wipi_settings' );
+		$options        = get_option( 'wpal_settings' );
 		$hotkey_display = isset( $options['hotkey_display'] ) ? $options['hotkey_display'] : '';
 		$hotkey_key     = isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '';
 		$hotkey_alt     = isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '';
@@ -382,23 +383,23 @@ final class Wipi {
 		$hotkey_meta    = isset( $options['hotkey_meta'] ) ? $options['hotkey_meta'] : '';
 		?>
 		<fieldset>
-			<input type="hidden" id="wipi_setting_hotkey_key" name="wipi_settings[hotkey_key]" value="<?php echo esc_html( $hotkey_key ); ?>">
-			<input type="hidden" id="wipi_setting_hotkey_alt" name="wipi_settings[hotkey_alt]" value="<?php echo esc_html( $hotkey_alt ); ?>">
-			<input type="hidden" id="wipi_setting_hotkey_ctrl" name="wipi_settings[hotkey_ctrl]" value="<?php echo esc_html( $hotkey_ctrl ); ?>">
-			<input type="hidden" id="wipi_setting_hotkey_shift" name="wipi_settings[hotkey_shift]" value="<?php echo esc_html( $hotkey_shift ); ?>">
-			<input type="hidden" id="wipi_setting_hotkey_meta" name="wipi_settings[hotkey_meta]" value="<?php echo esc_html( $hotkey_meta ); ?>">
-			<label for="wipi_setting_hotkey">
+			<input type="hidden" id="wpal_setting_hotkey_key" name="wpal_settings[hotkey_key]" value="<?php echo esc_html( $hotkey_key ); ?>">
+			<input type="hidden" id="wpal_setting_hotkey_alt" name="wpal_settings[hotkey_alt]" value="<?php echo esc_html( $hotkey_alt ); ?>">
+			<input type="hidden" id="wpal_setting_hotkey_ctrl" name="wpal_settings[hotkey_ctrl]" value="<?php echo esc_html( $hotkey_ctrl ); ?>">
+			<input type="hidden" id="wpal_setting_hotkey_shift" name="wpal_settings[hotkey_shift]" value="<?php echo esc_html( $hotkey_shift ); ?>">
+			<input type="hidden" id="wpal_setting_hotkey_meta" name="wpal_settings[hotkey_meta]" value="<?php echo esc_html( $hotkey_meta ); ?>">
+			<label for="wpal_setting_hotkey">
 				<input type="text"
-					id="wipi_setting_hotkey_display"
-					name="wipi_settings[hotkey_display]"
+					id="wpal_setting_hotkey_display"
+					name="wpal_settings[hotkey_display]"
 					value="<?php echo esc_html( $hotkey_display ); ?>" >
 			</label>
-			<br><i><?php esc_html_e( 'Click this input and press a combination of keys to open Wipi search window.', 'wipi' ); ?></i>
+			<br><i><?php esc_html_e( 'Click this input and press a combination of keys to open Wpal search window.', 'wpal' ); ?></i>
 		</fieldset>
 
 		<script>
-			var wipi_hotkey_input = document.getElementById('wipi_setting_hotkey_display');
-			wipi_hotkey_input.onkeypress = function(e) {
+			var wpal_hotkey_input = document.getElementById('wpal_setting_hotkey_display');
+			wpal_hotkey_input.onkeypress = function(e) {
 				e.preventDefault();
 				var value = e.code.replace('Key', '');
 				if ( e.altKey ) {
@@ -413,14 +414,14 @@ final class Wipi {
 				if ( e.metaKey ) {
 					value = 'SPECIAL + ' + value;
 				}
-				wipi_hotkey_input.value = value;
+				wpal_hotkey_input.value = value;
 
 				// hidden inputs.
-				document.getElementById('wipi_setting_hotkey_key').value = e.key;
-				document.getElementById('wipi_setting_hotkey_alt').value = e.altKey ? 1 : '';
-				document.getElementById('wipi_setting_hotkey_ctrl').value = e.ctrlKey ? 1 : '';
-				document.getElementById('wipi_setting_hotkey_shift').value = e.shiftKey ? 1 : '';
-				document.getElementById('wipi_setting_hotkey_meta').value = e.metaKey ? 1 : '';
+				document.getElementById('wpal_setting_hotkey_key').value = e.key;
+				document.getElementById('wpal_setting_hotkey_alt').value = e.altKey ? 1 : '';
+				document.getElementById('wpal_setting_hotkey_ctrl').value = e.ctrlKey ? 1 : '';
+				document.getElementById('wpal_setting_hotkey_shift').value = e.shiftKey ? 1 : '';
+				document.getElementById('wpal_setting_hotkey_meta').value = e.metaKey ? 1 : '';
 
 				return false;
 			}
@@ -437,12 +438,12 @@ final class Wipi {
 	 */
 	public function add_admin_menu_item( $wp_admin_bar ) {
 		$args = array(
-				'id' => 'wipi-admin-bar',
-				'title' => 'Wipi',
+				'id' => 'wpal-admin-bar',
+				'title' => 'Wpal',
 				'href' => '#',
 				'meta' => array(
-					'class' => 'wipi-admin-bar',
-					'title' => 'Wipi Quick Launcher'
+					'class' => 'wpal-admin-bar',
+					'title' => 'Wpal Quick Launcher'
 				)
 		);
 		$wp_admin_bar->add_node( $args );
@@ -457,7 +458,7 @@ final class Wipi {
 	 * @return array Array of links.
 	 */
 	public function add_settings_link( $links ) {
-		$settings_link = '<a href="options-general.php?page=wipi-settings">' . __( 'Settings' ) . '</a>';
+		$settings_link = '<a href="options-general.php?page=wpal-settings">' . __( 'Settings' ) . '</a>';
 		array_push( $links, $settings_link );
 		return $links;
 	}

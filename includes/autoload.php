@@ -4,7 +4,7 @@ spl_autoload_register(
 	function ( $class ) {
 
 		// project-specific namespace prefix.
-		$prefix = 'WIPI\\';
+		$prefix = 'WPAL\\';
 
 		// base directory for the namespace prefix.
 		$base_dir = __DIR__ . '/class-';
