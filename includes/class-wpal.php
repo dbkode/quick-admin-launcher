@@ -259,7 +259,9 @@ final class Wpal {
 	 */
 	public function render_settings_page() {
 		?>
-		<h2><?php esc_html_e( 'WP Admin Launcher Settings', 'wpal' ); ?></h2>
+		<h2 class="wpal-settings-title">
+			<?php esc_html_e( 'WP Admin Launcher Settings', 'wpal' ); ?>
+		</h2>
 		<form action="options.php" method="post">
 				<?php
 				settings_fields( 'wpal_settings' );

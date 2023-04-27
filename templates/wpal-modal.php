@@ -14,7 +14,9 @@
 
 	<!-- Wpal Logo -->
 	<div class="wpal-ribbon">
-		<div class="wpal-ribbon-content" :class="{'wpal-ribbon-content-loading': spinner}">Ⱳ</div>
+		<div class="wpal-ribbon-content" :class="{'wpal-ribbon-content-loading': spinner}">
+			<div class="wpal-ribbon-logo"></div>
+		</div>
 	</div>
 
 	<!-- Wpal input -->
