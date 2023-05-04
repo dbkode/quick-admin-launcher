@@ -89,9 +89,9 @@ final class Wpal {
 		// Get hotkey from settings.
 		$options = get_option( 'wpal_settings' );
 		$hotkey  = array(
-			'key'   => isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '',
+			'key'   => isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : 'k',
 			'alt'   => isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '',
-			'ctrl'  => isset( $options['hotkey_ctrl'] ) ? $options['hotkey_ctrl'] : '',
+			'ctrl'  => isset( $options['hotkey_ctrl'] ) ? $options['hotkey_ctrl'] : '1',
 			'shift' => isset( $options['hotkey_shift'] ) ? $options['hotkey_shift'] : '',
 			'meta'  => isset( $options['hotkey_meta'] ) ? $options['hotkey_meta'] : '',
 		);
@@ -401,8 +401,9 @@ final class Wpal {
 
 		<script>
 			var wpal_hotkey_input = document.getElementById('wpal_setting_hotkey_display');
-			wpal_hotkey_input.onkeypress = function(e) {
+			wpal_hotkey_input.onkeydown = function(e) {
 				e.preventDefault();
+				console.log(e);
 				var value = e.code.replace('Key', '');
 				if ( e.altKey ) {
 					value = 'ALT + ' + value;

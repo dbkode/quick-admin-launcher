@@ -34,7 +34,7 @@ To install this plugin:
 3. Click on the \"Choose file\" button and select the zip file you downloaded in step 1.
 4. Click on \"Install Now\" button.
 5. Once installed, click on the \"Activate Plugin\" button.
-6. You can start using the plugin by pressing `CTRL+K` (`CMD+K` on MacOS) and start searching for any admin tool or post type
+6. You can start using the plugin by pressing `CTRL+K` and start searching for any admin tool or post type
 7. Go to `Settings > WP Admin Launcher` to customize the plugin
 
 == Frequently Asked Questions ==
