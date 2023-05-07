@@ -20,7 +20,7 @@
 	</div>
 
 	<!-- Wpal input -->
-	<input id="wpal-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor">
+	<input id="wpal-modal-input" type="text" x-model="term" @input="searchChange" autocomplete="off" @keydown="fixInputCursor" placeholder="<?php esc_html_e( 'Search any admin tool or content...', 'wpal' ); ?>">
 
 	<!-- Wpal Spinner -->
 	<!-- <div class="spinner" :class="{'is-active': spinner}"></div> -->
