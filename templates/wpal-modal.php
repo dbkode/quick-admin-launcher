@@ -10,7 +10,9 @@
 ?>
 
 <!-- Wpal Modal Wrapper -->
-<div id="wpal-modal" x-data="wpal" x-show="modal" style="display: none;">
+<div id="wpal-modal-wrapper" x-data="wpal" x-show="modal" style="display: none;">
+
+	<div id="wpal-modal">
 
 	<!-- Wpal Logo -->
 	<div class="wpal-ribbon">
@@ -54,6 +56,8 @@
 				</template>
 			</div>
 		</template>
+
+	</div>
 
 	</div>
 
