@@ -1,5 +1,5 @@
 /**
- * Wpal modal handler.
+ * QuickAL modal handler.
  *
  * Modal js code to handle the different user interactions.
  *
@@ -10,11 +10,11 @@
  * Dependencies.
  */
 import Alpine from 'alpinejs' 
-import './wpal.scss'
+import './quickal.scss'
 
 window.Alpine = Alpine 
 
-Alpine.data('wpal', () => ({
+Alpine.data('quickal', () => ({
 	/**
 	 * Is modal visible.
 	 *
@@ -94,22 +94,22 @@ Alpine.data('wpal', () => ({
 		this.adminMenu = this.getAdminMenu();
 
 		// Add any extra items added via filter.
-		if ( wpalData.extra_items.length > 0 ) {
-			Array.prototype.push.apply(this.adminMenu, wpalData.extra_items);
+		if ( quickalData.extra_items.length > 0 ) {
+			Array.prototype.push.apply(this.adminMenu, quickalData.extra_items);
 		}
 
 		// Convert hotkey keys to booleans
-		wpalData.hotkey.alt   = wpalData.hotkey.alt ? true : false;
-		wpalData.hotkey.ctrl  = wpalData.hotkey.ctrl ? true : false;
-		wpalData.hotkey.shift = wpalData.hotkey.shift ? true : false;
-		wpalData.hotkey.meta  = wpalData.hotkey.meta ? true : false;
+		quickalData.hotkey.alt   = quickalData.hotkey.alt ? true : false;
+		quickalData.hotkey.ctrl  = quickalData.hotkey.ctrl ? true : false;
+		quickalData.hotkey.shift = quickalData.hotkey.shift ? true : false;
+		quickalData.hotkey.meta  = quickalData.hotkey.meta ? true : false;
 
 		// Add click event to admin bar button.
-		document.querySelector('.wpal-admin-bar > a').addEventListener('click', (e) => {
+		document.querySelector('.quickal-admin-bar > a').addEventListener('click', (e) => {
 			self.modal = !self.modal;
 			if ( self.modal ) {
 				setTimeout(() => {
-					document.getElementById('wpal-modal-input').focus();
+					document.getElementById('quickal-modal-input').focus();
 				}, 100);
 			}
 			e.preventDefault();
@@ -118,21 +118,21 @@ Alpine.data('wpal', () => ({
 		// Setup Hotkeys.
 		document.addEventListener('keydown', function(e) {
 			// Bail out if setting the hotkey on settings page.
-			if( 'wpal_setting_hotkey_display' === document.activeElement.id ) {
+			if( 'quickal_setting_hotkey_display' === document.activeElement.id ) {
 				return;
 			}
 
 			// Toggle modal.
-			if ( wpalData.hotkey.key === e.key 
-				&& wpalData.hotkey.alt === e.altKey
-				&& wpalData.hotkey.ctrl === e.ctrlKey
-				&& wpalData.hotkey.shift === e.shiftKey
-				&& wpalData.hotkey.meta === e.metaKey ) {
+			if ( quickalData.hotkey.key === e.key 
+				&& quickalData.hotkey.alt === e.altKey
+				&& quickalData.hotkey.ctrl === e.ctrlKey
+				&& quickalData.hotkey.shift === e.shiftKey
+				&& quickalData.hotkey.meta === e.metaKey ) {
 				self.modal = !self.modal;
 
 				if ( self.modal ) {
 					setTimeout(() => {
-						document.getElementById('wpal-modal-input').focus();
+						document.getElementById('quickal-modal-input').focus();
 					}, 100);
 				}
 
@@ -169,10 +169,10 @@ Alpine.data('wpal', () => ({
 			}
 		}, false);
 
-		// Mouse click outside Wpal to close it.
+		// Mouse click outside QuickAL to close it.
 		document.addEventListener('click', function(e) {
-			if ( ! document.getElementById('wpal-modal').contains(e.target)
-				&& ! document.querySelector('.wpal-admin-bar').contains(e.target) ) {
+			if ( ! document.getElementById('quickal-modal').contains(e.target)
+				&& ! document.querySelector('.quickal-admin-bar').contains(e.target) ) {
 				self.modal = false;
 				self.spinner = false;
 			}
@@ -265,9 +265,9 @@ Alpine.data('wpal', () => ({
 		const termServer = term.replace(' ', '+');
 		clearTimeout(this.serverSearchTimeout);
 		this.serverSearchTimeout = setTimeout(async () => {
-			const response = await fetch(`${wpalData.rest}/search/${termServer}`, {
+			const response = await fetch(`${quickalData.rest}/search/${termServer}`, {
 				headers: { 
-					"X-WP-Nonce": wpalData.nonce,
+					"X-WP-Nonce": quickalData.nonce,
 					"Content-Type": "application/json;charset=utf-8"
 				}
 			});
