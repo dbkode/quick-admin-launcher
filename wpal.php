@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 define( 'WPAL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPAL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WPAL_VERSION', '0.0.1' );
+define( 'WPAL_VERSION', '1.0.0' );
 
 require_once WPAL_PLUGIN_DIR . '/includes/autoload.php';
 
@@ -33,7 +33,8 @@ function wpal_activate() {
 			'post_types'   => array( 'page', 'post' ),
 			'users_search' => 1,
 			'hotkey'       => array(
-				'display' => 'CTRL + Space',
+				'display' => 'CTRL + k',
+				'key'     => 'k',
 				'alt'     => '',
 				'ctrl'    => 1,
 				'shift'   => '',
