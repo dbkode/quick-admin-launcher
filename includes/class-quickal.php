@@ -1,24 +1,24 @@
 <?php
 /**
- * Main Wpal class file
+ * Main QuickAL class file
  *
- * @package Wpal
+ * @package QuickAL
  * @subpackage Core
  * @since 1.0.0
  */
 
-namespace WPAL;
+namespace QUICKAL;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Wpal class.
+ * QuickAL class.
  *
  * @since 1.0.0
  */
-final class Wpal {
+final class QuickAL {
 
 	/**
 	 * Plugin initializer
@@ -36,7 +36,7 @@ final class Wpal {
 	 */
 	public function setup() {
 		// Localize plugin.
-		load_plugin_textdomain( 'wpal', false, WPAL_PLUGIN_DIR . '/languages' );
+		load_plugin_textdomain( 'quickal', false, QUICKAL_PLUGIN_DIR . '/languages' );
 
 		// Enqueue admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
@@ -45,19 +45,19 @@ final class Wpal {
 		// Register rest functions.
 		add_action( 'rest_api_init', array( $this, 'register_api_routes' ) );
 
-		// Add wpal modal to admin.
+		// Add quickal modal to admin.
 		add_action( 'admin_footer', array( $this, 'modal_html' ) );
 
 		// Add settings page.
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-		// Add wpal link to admin bar
+		// Add quickal link to admin bar
 		add_action( 'admin_bar_menu', array( $this, 'add_admin_menu_item' ), 999 );
 
 		// Add a settings link to the plugins page.
-		$plugin_dir_name = basename( WPAL_PLUGIN_DIR );
-		add_filter( 'plugin_action_links_' . $plugin_dir_name . '/wpal.php', array( $this, 'add_settings_link' ) );
+		$plugin_dir_name = basename( QUICKAL_PLUGIN_DIR );
+		add_filter( 'plugin_action_links_' . $plugin_dir_name . '/quick-admin-launcher.php', array( $this, 'add_settings_link' ) );
 	}
 
 	/**
@@ -66,7 +66,7 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script( 'wpal-js', WPAL_PLUGIN_URL . '/dist/wpal.js', array(), WPAL_VERSION, false );
+		wp_enqueue_script( 'quickal-js', QUICKAL_PLUGIN_URL . '/dist/quickal.js', array(), QUICKAL_VERSION, false );
 
 		/**
 		 * Filters any additional items to be searchable.
@@ -74,7 +74,7 @@ final class Wpal {
 		 * @since 1.0.0
 		 *
 		 * @param array $extra_items {
-		 *   Array of extra items to be searchable by Wpal. Defaul empty array.
+		 *   Array of extra items to be searchable by QuickAL. Defaul empty array.
 		 *
 		 *     @type array $item {
 		 *       Searchable item.
@@ -87,10 +87,10 @@ final class Wpal {
 		 *     }
 		 * }
 		 */
-		$extra_items = apply_filters( 'wpal_extra_items', array() );
+		$extra_items = apply_filters( 'quickal_extra_items', array() );
 
 		// Get hotkey from settings.
-		$options = get_option( 'wpal_settings' );
+		$options = get_option( 'quickal_settings' );
 		$hotkey  = array(
 			'key'   => isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : 'k',
 			'alt'   => isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '',
@@ -100,10 +100,10 @@ final class Wpal {
 		);
 
 		wp_localize_script(
-			'wpal-js',
-			'wpalData',
+			'quickal-js',
+			'quickalData',
 			array(
-				'rest'        => esc_url_raw( rest_url( 'wpal/v1' ) ),
+				'rest'        => esc_url_raw( rest_url( 'quickal/v1' ) ),
 				'nonce'       => wp_create_nonce( 'wp_rest' ),
 				'extra_items' => $extra_items,
 				'hotkey'      => $hotkey,
@@ -112,14 +112,14 @@ final class Wpal {
 	}
 
 	public function defer_parsing_of_js( $url ) {
-		if ( strpos( $url, 'wpal.js' ) ) {
+		if ( strpos( $url, 'quickal.js' ) ) {
 			return str_replace( ' src', ' defer src', $url );
 		}
 		return $url;
 	}
 
 	/**
-	 * Register API Routes for Wpal.
+	 * Register API Routes for QuickAL.
 	 *
 	 * @since 1.0.0
 	 */
@@ -127,7 +127,7 @@ final class Wpal {
 
 		// Search posts route.
 		register_rest_route(
-			'wpal/v1',
+			'quickal/v1',
 			'/search/(?P<term>\S+)',
 			array(
 				'methods'             => 'GET',
@@ -141,12 +141,12 @@ final class Wpal {
 	}
 
 	/**
-	 * Add Wpal Modal HTML to footer.
+	 * Add QuickAL Modal HTML to footer.
 	 *
 	 * @since 1.0.0
 	 */
 	public function modal_html() {
-		include WPAL_PLUGIN_DIR . 'templates/wpal-modal.php';
+		include QUICKAL_PLUGIN_DIR . 'templates/quickal-modal.php';
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class Wpal {
 	 */
 	public function rest_search( $data ) {
 		$term    = $data['term'];
-		$options = get_option( 'wpal_settings' );
+		$options = get_option( 'quickal_settings' );
 		$results = array();
 
 		// Search on posts.
@@ -235,7 +235,7 @@ final class Wpal {
 		 *     }
 		 * }
 		 */
-		$results = apply_filters( 'wpal_server_search_results', $results, $term );
+		$results = apply_filters( 'quickal_server_search_results', $results, $term );
 
 		return $results;
 	}
@@ -247,10 +247,10 @@ final class Wpal {
 	 */
 	public function add_settings_page() {
 		add_options_page(
-			__( 'WP Admin Launcher', 'wpal' ),
-			__( 'WP Admin Launcher', 'wpal' ),
+			__( 'Quick Admin Launcher', 'quickal' ),
+			__( 'Quick Admin Launcher', 'quickal' ),
 			'manage_options',
-			'wpal-settings',
+			'quickal-settings',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -262,13 +262,13 @@ final class Wpal {
 	 */
 	public function render_settings_page() {
 		?>
-		<h2 class="wpal-settings-title">
-			<?php esc_html_e( 'WP Admin Launcher Settings', 'wpal' ); ?>
+		<h2 class="quickal-settings-title">
+			<?php esc_html_e( 'Quick Admin Launcher Settings', 'quickal' ); ?>
 		</h2>
 		<form action="options.php" method="post">
 				<?php
-				settings_fields( 'wpal_settings' );
-				do_settings_sections( 'wpal_settings' );
+				settings_fields( 'quickal_settings' );
+				do_settings_sections( 'quickal_settings' );
 				?>
 				<input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
 		</form>
@@ -281,34 +281,34 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function register_settings() {
-		register_setting( 'wpal_settings', 'wpal_settings' );
-		add_settings_section( 'wpal_settings_section', '', '__return_true', 'wpal_settings' );
+		register_setting( 'quickal_settings', 'quickal_settings' );
+		add_settings_section( 'quickal_settings_section', '', '__return_true', 'quickal_settings' );
 
 		// Post types setting.
 		add_settings_field(
-			'wpal_setting_post_types',
-			__( 'Post Types', 'wpal' ),
+			'quickal_setting_post_types',
+			__( 'Post Types', 'quickal' ),
 			array( $this, 'render_setting_post_types' ),
-			'wpal_settings',
-			'wpal_settings_section'
+			'quickal_settings',
+			'quickal_settings_section'
 		);
 
 		// Users search setting.
 		add_settings_field(
-			'wpal_setting_users_search',
-			__( 'Enable Users Search', 'wpal' ),
+			'quickal_setting_users_search',
+			__( 'Enable Users Search', 'quickal' ),
 			array( $this, 'render_setting_users_search' ),
-			'wpal_settings',
-			'wpal_settings_section'
+			'quickal_settings',
+			'quickal_settings_section'
 		);
 
 		// Hotkey setting.
 		add_settings_field(
-			'wpal_setting_hotkey',
-			__( 'Hotkey', 'wpal' ),
+			'quickal_setting_hotkey',
+			__( 'Hotkey', 'quickal' ),
 			array( $this, 'render_setting_hotkey' ),
-			'wpal_settings',
-			'wpal_settings_section'
+			'quickal_settings',
+			'quickal_settings_section'
 		);
 	}
 
@@ -318,7 +318,7 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function render_setting_post_types() {
-		$options = get_option( 'wpal_settings' );
+		$options = get_option( 'quickal_settings' );
 
 		$value = array();
 		if ( isset( $options['post_types'] ) && ! empty( $options['post_types'] ) ) {
@@ -335,10 +335,10 @@ final class Wpal {
 		?>
 		<fieldset>
 			<?php foreach ( $post_types as $post_type ) : ?>
-				<label for="wpal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>">
+				<label for="quickal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>">
 					<input type="checkbox"
-						id="wpal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>"
-						name="wpal_settings[post_types][]"
+						id="quickal_setting_post_type_<?php echo esc_attr( $post_type->name ); ?>"
+						name="quickal_settings[post_types][]"
 						value="<?php echo esc_attr( $post_type->name ); ?>"
 						<?php echo in_array( $post_type->name, $value, true ) ? 'checked' : ''; ?> />
 						<?php echo esc_html( $post_type->label ); ?>
@@ -356,17 +356,17 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function render_setting_users_search() {
-		$options = get_option( 'wpal_settings' );
+		$options = get_option( 'quickal_settings' );
 		$value   = isset( $options['users_search'] ) ? $options['users_search'] : false;
 		?>
 		<fieldset>
-			<label for="wpal_setting_users_search">
+			<label for="quickal_setting_users_search">
 				<input type="checkbox"
-					id="wpal_setting_users_search"
-					name="wpal_settings[users_search]"
+					id="quickal_setting_users_search"
+					name="quickal_settings[users_search]"
 					value="1"
 					<?php checked( 1, $value ); ?> />
-					<?php esc_html_e( 'This will turn on users searching.', 'wpal' ); ?>
+					<?php esc_html_e( 'This will turn on users searching.', 'quickal' ); ?>
 			</label>
 		</fieldset>
 
@@ -379,7 +379,7 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function render_setting_hotkey() {
-		$options        = get_option( 'wpal_settings' );
+		$options        = get_option( 'quickal_settings' );
 		$hotkey_display = isset( $options['hotkey_display'] ) ? $options['hotkey_display'] : '';
 		$hotkey_key     = isset( $options['hotkey_key'] ) ? $options['hotkey_key'] : '';
 		$hotkey_alt     = isset( $options['hotkey_alt'] ) ? $options['hotkey_alt'] : '';
@@ -388,23 +388,23 @@ final class Wpal {
 		$hotkey_meta    = isset( $options['hotkey_meta'] ) ? $options['hotkey_meta'] : '';
 		?>
 		<fieldset>
-			<input type="hidden" id="wpal_setting_hotkey_key" name="wpal_settings[hotkey_key]" value="<?php echo esc_html( $hotkey_key ); ?>">
-			<input type="hidden" id="wpal_setting_hotkey_alt" name="wpal_settings[hotkey_alt]" value="<?php echo esc_html( $hotkey_alt ); ?>">
-			<input type="hidden" id="wpal_setting_hotkey_ctrl" name="wpal_settings[hotkey_ctrl]" value="<?php echo esc_html( $hotkey_ctrl ); ?>">
-			<input type="hidden" id="wpal_setting_hotkey_shift" name="wpal_settings[hotkey_shift]" value="<?php echo esc_html( $hotkey_shift ); ?>">
-			<input type="hidden" id="wpal_setting_hotkey_meta" name="wpal_settings[hotkey_meta]" value="<?php echo esc_html( $hotkey_meta ); ?>">
-			<label for="wpal_setting_hotkey">
+			<input type="hidden" id="quickal_setting_hotkey_key" name="quickal_settings[hotkey_key]" value="<?php echo esc_html( $hotkey_key ); ?>">
+			<input type="hidden" id="quickal_setting_hotkey_alt" name="quickal_settings[hotkey_alt]" value="<?php echo esc_html( $hotkey_alt ); ?>">
+			<input type="hidden" id="quickal_setting_hotkey_ctrl" name="quickal_settings[hotkey_ctrl]" value="<?php echo esc_html( $hotkey_ctrl ); ?>">
+			<input type="hidden" id="quickal_setting_hotkey_shift" name="quickal_settings[hotkey_shift]" value="<?php echo esc_html( $hotkey_shift ); ?>">
+			<input type="hidden" id="quickal_setting_hotkey_meta" name="quickal_settings[hotkey_meta]" value="<?php echo esc_html( $hotkey_meta ); ?>">
+			<label for="quickal_setting_hotkey">
 				<input type="text"
-					id="wpal_setting_hotkey_display"
-					name="wpal_settings[hotkey_display]"
+					id="quickal_setting_hotkey_display"
+					name="quickal_settings[hotkey_display]"
 					value="<?php echo esc_html( $hotkey_display ); ?>" >
 			</label>
-			<br><i><?php esc_html_e( 'Click this input and press a combination of keys to open Wpal search window.', 'wpal' ); ?></i>
+			<br><i><?php esc_html_e( 'Click this input and press a combination of keys to open QuickAL search window.', 'quickal' ); ?></i>
 		</fieldset>
 
 		<script>
-			var wpal_hotkey_input = document.getElementById('wpal_setting_hotkey_display');
-			wpal_hotkey_input.onkeydown = function(e) {
+			var quickal_hotkey_input = document.getElementById('quickal_setting_hotkey_display');
+			quickal_hotkey_input.onkeydown = function(e) {
 				e.preventDefault();
 				console.log(e);
 				var value = e.code.replace('Key', '');
@@ -420,14 +420,14 @@ final class Wpal {
 				if ( e.metaKey ) {
 					value = 'SPECIAL + ' + value;
 				}
-				wpal_hotkey_input.value = value;
+				quickal_hotkey_input.value = value;
 
 				// hidden inputs.
-				document.getElementById('wpal_setting_hotkey_key').value = e.key;
-				document.getElementById('wpal_setting_hotkey_alt').value = e.altKey ? 1 : '';
-				document.getElementById('wpal_setting_hotkey_ctrl').value = e.ctrlKey ? 1 : '';
-				document.getElementById('wpal_setting_hotkey_shift').value = e.shiftKey ? 1 : '';
-				document.getElementById('wpal_setting_hotkey_meta').value = e.metaKey ? 1 : '';
+				document.getElementById('quickal_setting_hotkey_key').value = e.key;
+				document.getElementById('quickal_setting_hotkey_alt').value = e.altKey ? 1 : '';
+				document.getElementById('quickal_setting_hotkey_ctrl').value = e.ctrlKey ? 1 : '';
+				document.getElementById('quickal_setting_hotkey_shift').value = e.shiftKey ? 1 : '';
+				document.getElementById('quickal_setting_hotkey_meta').value = e.metaKey ? 1 : '';
 
 				return false;
 			}
@@ -444,12 +444,12 @@ final class Wpal {
 	 */
 	public function add_admin_menu_item( $wp_admin_bar ) {
 		$args = array(
-				'id' => 'wpal-admin-bar',
-				'title' => 'Wpal',
+				'id' => 'quickal-admin-bar',
+				'title' => 'QuickAL',
 				'href' => '#',
 				'meta' => array(
-					'class' => 'wpal-admin-bar',
-					'title' => 'Wpal Quick Launcher'
+					'class' => 'quickal-admin-bar',
+					'title' => 'QuickAL Quick Launcher'
 				)
 		);
 		$wp_admin_bar->add_node( $args );
@@ -464,7 +464,7 @@ final class Wpal {
 	 * @return array Array of links.
 	 */
 	public function add_settings_link( $links ) {
-		$settings_link = '<a href="options-general.php?page=wpal-settings">' . __( 'Settings' ) . '</a>';
+		$settings_link = '<a href="options-general.php?page=quickal-settings">' . __( 'Settings' ) . '</a>';
 		array_push( $links, $settings_link );
 		return $links;
 	}

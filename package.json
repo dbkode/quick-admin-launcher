@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dbkode/wpal.git"
+    "url": "git+https://github.com/dbkode/quickal.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dbkode/wpal/issues"
+    "url": "https://github.com/dbkode/quick-admin-launcher/issues"
   },
-  "homepage": "https://github.com/dbkode/wpal#readme",
+  "homepage": "https://github.com/dbkode/quick-admin-launcher#readme",
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",

@@ -1,4 +1,4 @@
-=== WP Admin Launcher ===
+=== Quick Admin Launcher ===
 Contributors: dbeja
 Tags: admin, search, dashboard, menu
 Donate link: https://www.paypal.com/paypalme/dbkode
@@ -12,9 +12,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Quickly launch any admin tool & search posts/pages with a shortcut key for enhanced productivity.
 
 == Description ==
-WP Admin Launcher is a plugin for WordPress that allows you to quickly launch any admin tool that is part of WP Admin menu and search any post/page/custom post type with a shortcut key. It saves time and effort by providing a simple and effective way to navigate your WordPress dashboard.
+Quick Admin Launcher is a plugin for WordPress that allows you to quickly launch any admin tool that is part of WP Admin menu and search any post/page/custom post type with a shortcut key. It saves time and effort by providing a simple and effective way to navigate your WordPress dashboard.
 
-The plugin is lightweight and easy to use, with a sleek interface that makes it simple to find what you\'re looking for. Whether you\'re a beginner or an experienced WordPress user, WP Admin Launcher is the perfect tool to help you work more efficiently.
+The plugin is lightweight and easy to use, with a sleek interface that makes it simple to find what you\'re looking for. Whether you\'re a beginner or an experienced WordPress user, Quick Admin Launcher is the perfect tool to help you work more efficiently.
 
 == Features ==
 * Quickly launches any admin tool that is present on the Admin menu
@@ -35,17 +35,17 @@ To install this plugin:
 4. Click on \"Install Now\" button.
 5. Once installed, click on the \"Activate Plugin\" button.
 6. You can start using the plugin by pressing `CTRL+K` and start searching for any admin tool or post type
-7. Go to `Settings > WP Admin Launcher` to customize the plugin
+7. Go to `Settings > Quick Admin Launcher` to customize the plugin
 
 == Frequently Asked Questions ==
 = Will the launcher only list items the user has access to? =
 Yes, the plugin just searches admin items he can see on the menu when he\'s logged in.
 
 = How to add custom items to the search results that are not present on the WP admin menu? =
-Use the filter hook `wpal_extra_items` to add new items:
+Use the filter hook `quickal_extra_items` to add new items:
 ```
-add_filter( \'wpal_extra_items\', \'add_custom_items_to_wpal\', 10, 1 );
-function add_custom_items_to_wpal( $items ) {
+add_filter( \'quickal_extra_items\', \'add_custom_items_to_quickal\', 10, 1 );
+function add_custom_items_to_quickal( $items ) {
 	$items[] = array(
 		\'label\' => \'Custom Item\',  // Item label
 		\'link\'  => \'https://custom-link.com\',  // Link when clicked

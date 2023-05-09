@@ -1,8 +1,8 @@
 const path = require("path");
 
 module.exports = {
-	entry: { index: path.resolve(__dirname, "src", "wpal.js") },
-	output: { filename: 'wpal.js' },
+	entry: { index: path.resolve(__dirname, "src", "quickal.js") },
+	output: { filename: 'quickal.js' },
 	module: {
     rules: [
       {
