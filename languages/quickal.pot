@@ -1,0 +1,80 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Quick Admin Launcher\n"
+"POT-Creation-Date: 2023-05-09 15:27-0600\n"
+"PO-Revision-Date: 2023-05-09 15:27-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: quick-admin-launcher.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#. Plugin Name of the plugin/theme
+#: includes/class-quickal.php:250 includes/class-quickal.php:251
+msgid "Quick Admin Launcher"
+msgstr ""
+
+#: includes/class-quickal.php:266
+msgid "Quick Admin Launcher Settings"
+msgstr ""
+
+#: includes/class-quickal.php:273
+msgid "Save"
+msgstr ""
+
+#: includes/class-quickal.php:290
+msgid "Post Types"
+msgstr ""
+
+#: includes/class-quickal.php:299
+msgid "Enable Users Search"
+msgstr ""
+
+#: includes/class-quickal.php:308
+msgid "Hotkey"
+msgstr ""
+
+#: includes/class-quickal.php:369
+msgid "This will turn on users searching."
+msgstr ""
+
+#: includes/class-quickal.php:402
+msgid ""
+"Click this input and press a combination of keys to open QuickAL search "
+"window."
+msgstr ""
+
+#: includes/class-quickal.php:467
+msgid "Settings"
+msgstr ""
+
+#: templates/quickal-modal.php:25
+msgid "Search any admin tool or content..."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "quick-admin-launcher.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Quick Admin Launcher is a WordPress plugin that allows to quickly launch any "
+"admin tool from a search box."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "dbeja"
+msgstr ""
