@@ -35,6 +35,9 @@ final class Wpal {
 	 * @since 1.0.0
 	 */
 	public function setup() {
+		// Localize plugin.
+		load_plugin_textdomain( 'wpal', false, WPAL_PLUGIN_DIR . '/languages' );
+
 		// Enqueue admin scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_filter( 'script_loader_tag', array( $this, 'defer_parsing_of_js' ), 10 );

@@ -5,6 +5,8 @@
  * Description: WP Admin Launcher is a WordPress plugin that allows to quickly launch any admin tool from a search box.
  * Version:     1.0.0
  * Author:      dbeja
+ * Text Domain: wpal
+ * Domain Path: /languages
  */
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
