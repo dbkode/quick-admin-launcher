@@ -445,11 +445,11 @@ final class QuickAL {
 	public function add_admin_menu_item( $wp_admin_bar ) {
 		$args = array(
 				'id' => 'quickal-admin-bar',
-				'title' => 'QuickAL',
+				'title' => '<span class="quickal-admin-bar-icon"></span>',
 				'href' => '#',
 				'meta' => array(
 					'class' => 'quickal-admin-bar',
-					'title' => 'QuickAL Quick Launcher'
+					'title' => 'Quick Admin Launcher'
 				)
 		);
 		$wp_admin_bar->add_node( $args );

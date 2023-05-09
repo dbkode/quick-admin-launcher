@@ -140,3 +140,22 @@
 	background: transparent url(../img/logo-red.png) no-repeat left center;
 	background-size: contain;
 }
+
+/* Admin bar icon */
+#wpadminbar .quickal-admin-bar {
+	position: relative;
+
+	.ab-item {
+		width: 15px;
+	}
+
+	.quickal-admin-bar-icon {
+		position: absolute;
+		top: 50%;
+		margin-top: -10px;
+		height: 20px;
+		width: 20px;
+		background: transparent url(../img/logo.png) no-repeat left center;
+		background-size: contain;
+	}
+}
