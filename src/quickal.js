@@ -12,7 +12,7 @@
 import Alpine from 'alpinejs' 
 import './quickal.scss'
 
-window.Alpine = Alpine 
+Alpine.prefix('quickal-');
 
 Alpine.data('quickal', () => ({
 	/**
