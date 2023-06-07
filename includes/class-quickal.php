@@ -133,7 +133,7 @@ final class QuickAL {
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'rest_search' ),
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_posts' );
 				},
 			)
 		);
