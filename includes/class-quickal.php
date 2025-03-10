@@ -66,7 +66,8 @@ final class QuickAL {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script( 'quickal-js', QUICKAL_PLUGIN_URL . '/dist/quickal.js', array(), QUICKAL_VERSION, false );
+		wp_enqueue_script( 'quickal-react', QUICKAL_PLUGIN_URL . '/build/index.js', array('wp-element'), QUICKAL_VERSION, true );
+		wp_enqueue_style( 'quickal-react', QUICKAL_PLUGIN_URL . '/build/index.css', array(), QUICKAL_VERSION );
 
 		/**
 		 * Filters any additional items to be searchable.
@@ -100,7 +101,7 @@ final class QuickAL {
 		);
 
 		wp_localize_script(
-			'quickal-js',
+			'quickal-react',
 			'quickalData',
 			array(
 				'rest'        => esc_url_raw( rest_url( 'quickal/v1' ) ),
@@ -146,7 +147,7 @@ final class QuickAL {
 	 * @since 1.0.0
 	 */
 	public function modal_html() {
-		include QUICKAL_PLUGIN_DIR . 'templates/quickal-modal.php';
+		echo '<div id="quickal-modal-root"></div>';
 	}
 
 	/**
@@ -406,7 +407,6 @@ final class QuickAL {
 			var quickal_hotkey_input = document.getElementById('quickal_setting_hotkey_display');
 			quickal_hotkey_input.onkeydown = function(e) {
 				e.preventDefault();
-				console.log(e);
 				var value = e.code.replace('Key', '');
 				if ( e.altKey ) {
 					value = 'ALT + ' + value;

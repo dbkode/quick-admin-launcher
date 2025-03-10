@@ -3,9 +3,9 @@ Contributors: dbeja
 Tags: admin, search, dashboard, menu
 Donate link: https://www.paypal.com/paypalme/dbkode
 Requires at least: 5.7 or higher
-Tested up to: 6.2
+Tested up to: 6.7
 Requires PHP: 7.2 or higher
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,5 +64,8 @@ function add_custom_items_to_quickal( $items ) {
 3. Settings Screen
 
 == Changelog ==
+= 1.0.1 =
+* Convert modal template to WordPress React
+
 = 1.0 =
 * Plugin release
