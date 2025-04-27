@@ -15,7 +15,11 @@ define( 'QUICKAL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'QUICKAL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'QUICKAL_VERSION', '1.0.2' );
 
+// Include autoloader
 require_once QUICKAL_PLUGIN_DIR . '/includes/autoload.php';
+
+// Direct include of the main class file to avoid autoloader issues
+require_once QUICKAL_PLUGIN_DIR . '/includes/class-QuickAL.php';
 
 register_activation_hook( __FILE__, 'quickal_activate' );
 register_deactivation_hook( __FILE__, 'quickal_deactivate' );
@@ -52,5 +56,25 @@ function quickal_activate() {
  */
 function quickal_deactivate() {}
 
+// Check if the class exists, if not try to include it directly
+if (!class_exists('QUICKAL\\QuickAL')) {
+    // Try with lowercase filename (for case-insensitive file systems)
+    if (file_exists(QUICKAL_PLUGIN_DIR . '/includes/class-quickal.php')) {
+        require_once QUICKAL_PLUGIN_DIR . '/includes/class-quickal.php';
+    }
+
+    // Try with uppercase AL (for case-sensitive file systems)
+    if (file_exists(QUICKAL_PLUGIN_DIR . '/includes/class-QuickAL.php')) {
+        require_once QUICKAL_PLUGIN_DIR . '/includes/class-QuickAL.php';
+    }
+
+    // If class still doesn't exist, define it inline as a last resort
+    if (!class_exists('QUICKAL\\QuickAL')) {
+        // Define the class directly in the main file as a fallback
+        require_once QUICKAL_PLUGIN_DIR . '/includes/class-quickal-fallback.php';
+    }
+}
+
+// Initialize the plugin
 $quickal = new QUICKAL\QuickAL();
 $quickal->init();

@@ -1,6 +1,9 @@
 <?php
 /**
- * Main QuickAL class file
+ * Fallback QuickAL class file
+ *
+ * This is a fallback implementation of the QuickAL class that will be used
+ * if the main class file cannot be loaded due to case-sensitivity issues.
  *
  * @package QuickAL
  * @subpackage Core
