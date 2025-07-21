@@ -1,0 +1,27 @@
+{
+    "name": "dbeja/quick-admin-launcher",
+    "description": "WordPress plugin for quick admin navigation with modern PHP patterns",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "yoast/phpunit-polyfills": "^4.0",
+        "wp-phpunit/wp-phpunit": "^6.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "QUICKAL\\": "includes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "QUICKAL\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html coverage"
+    }
+}

@@ -21,6 +21,9 @@ webpack.config.js     export-ignore
 # Tests / Other
 /tests/               export-ignore
 phpunit.xml           export-ignore
+phpunit.xml.dist      export-ignore
 README.md             export-ignore
 .editorconfig         export-ignore
 .DS_Store*            export-ignore
+/bin/                 export-ignore
+.circleci/            export-ignore

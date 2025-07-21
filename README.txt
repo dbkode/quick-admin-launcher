@@ -3,9 +3,9 @@ Contributors: dbeja
 Tags: admin, search, dashboard, menu
 Donate link: https://www.paypal.com/paypalme/dbkode
 Requires at least: 5.7
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.0.2
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,11 @@ function add_custom_items_to_quickal( $items ) {
 3. Settings Screen
 
 == Changelog ==
+= 1.1 =
+* Fix: console crash when less than 2 chars
+* Fix: Shortcut keys saving issue
+* PHP code refactoring
+
 = 1.0.2 =
 * Minor performance improvements
 
@@ -72,3 +77,34 @@ function add_custom_items_to_quickal( $items ) {
 
 = 1.0 =
 * Plugin release
+
+== Development & Testing ==
+
+Requirements:
+- PHP 8.0 or higher (required for PHPUnit 9)
+- Composer
+- Node.js & npm (for building assets)
+- WordPress (for integration testing)
+
+Setup:
+1. Install PHP dependencies:
+   composer install
+2. Install Node dependencies and build assets:
+   npm install
+   npm run build
+3. Set up the WordPress test environment:
+   bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 latest
+   (Adjust DB credentials as needed)
+
+Running Tests:
+- Run all tests:
+  composer test
+  or
+  vendor/bin/phpunit
+- Run tests with coverage:
+  composer test-coverage
+
+Notes:
+- Tests are located in the tests/ directory.
+- The plugin uses the wp-phpunit framework for WordPress integration.
+- Make sure your database is running and accessible for the test suite.

@@ -69,11 +69,13 @@ const QuickalModal = ({ quickalData }) => {
 
   // Handle search change.
   const searchChange = (e) => {
-    const term = e.target.value.toLowerCase().trim();
-    setTerm(term);
+    const rawValue = e.target.value;
+    setTerm(rawValue); // Show exactly what the user typed
+    const term = rawValue.toLowerCase().trim(); // Use trimmed for search logic
 
     if (term.length === 0) {
       setResults([]);
+      setSpinner(false);
       return;
     }
 
@@ -86,18 +88,34 @@ const QuickalModal = ({ quickalData }) => {
     setResults(filteredResults);
     setSelection(0);
 
+    // Only call the API if term is at least 2 characters
+    if (term.length < 2) {
+      setSpinner(false);
+      return;
+    }
+
     setSpinner(true);
     const termServer = term.replace(' ', '+');
     clearTimeout(serverSearchTimeout);
     setServerSearchTimeout(setTimeout(async () => {
-      const response = await fetch(`${quickalData.rest}/search/${termServer}`, {
-        headers: { 
-          "X-WP-Nonce": quickalData.nonce,
-          "Content-Type": "application/json;charset=utf-8"
+      try {
+        const response = await fetch(`${quickalData.rest}/search/${termServer}`, {
+          headers: { 
+            "X-WP-Nonce": quickalData.nonce,
+            "Content-Type": "application/json;charset=utf-8"
+          }
+        });
+        if (!response.ok) {
+          setSpinner(false);
+          return;
         }
-      });
-      const responseJson = await response.json();
-      setResults(prevResults => [...prevResults, ...responseJson]);
+        const responseJson = await response.json();
+        if (Array.isArray(responseJson)) {
+          setResults(prevResults => [...prevResults, ...responseJson]);
+        }
+      } catch (err) {
+        setSpinner(false);
+      }
       setSpinner(false);
     }, 300));
   };
