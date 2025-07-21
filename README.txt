@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/paypalme/dbkode
 Requires at least: 5.7
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ function add_custom_items_to_quickal( $items ) {
 3. Settings Screen
 
 == Changelog ==
+= 1.1.1 =
+* Fix: include composer autoload
+
 = 1.1 =
 * Fix: console crash when less than 2 chars
 * Fix: Shortcut keys saving issue

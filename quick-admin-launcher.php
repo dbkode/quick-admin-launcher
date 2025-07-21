@@ -3,7 +3,7 @@
  * Plugin Name: Quick Admin Launcher
  * Plugin URI:  https://wordpress.org/plugins/quick-admin-launcher/
  * Description: Quick Admin Launcher is a WordPress plugin that allows to quickly launch any admin tool from a search box.
- * Version:     1.1
+ * Version:     1.1.1
  * Author:      dbeja
  * Text Domain: quickal
  * Domain Path: /languages
@@ -14,7 +14,7 @@ defined('ABSPATH') || die('No script kiddies please!');
 
 define('QUICKAL_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('QUICKAL_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('QUICKAL_VERSION', '1.1');
+define('QUICKAL_VERSION', '1.1.1');
 
 // Load Composer autoloader
 require_once QUICKAL_PLUGIN_DIR . '/vendor/autoload.php';
